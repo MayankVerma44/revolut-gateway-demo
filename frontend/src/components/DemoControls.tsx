@@ -15,7 +15,7 @@ export function DemoControls({
   }
 
   return (
-    <div className="rounded-2xl border border-dashed border-amber bg-amber/10 p-4">
+    <div className="alert-demo">
       <div className="text-xs font-medium uppercase tracking-[0.16em] text-amber">
         Demo-only controls
       </div>
@@ -40,11 +40,7 @@ function DemoButton({
   onClick: () => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="rounded-xl bg-paper border border-line px-3 py-2 text-sm hover:border-ink"
-    >
+    <button type="button" onClick={onClick} className="btn-secondary w-full text-sm py-2">
       {children}
     </button>
   );

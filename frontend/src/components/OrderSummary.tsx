@@ -4,14 +4,14 @@ export function OrderSummary({ quantity }: { quantity: number }) {
   const subtotal = PRODUCT.priceMinor * quantity;
   const total = computeOrderAmountMinor(quantity);
   return (
-    <aside className="rounded-3xl bg-paper border border-line p-6">
-      <h2 className="font-display text-2xl">Order summary</h2>
+    <aside className="glass rounded-2xl p-6">
+      <h2 className="section-title">Order summary</h2>
       <div className="mt-5 space-y-3 text-sm">
         <Row label={`${PRODUCT.name} × ${quantity}`} value={formatGbp(subtotal)} />
         <Row label="Shipping" value="Free" />
-        <div className="border-t border-line pt-3 flex justify-between font-medium text-base">
+        <div className="border-t border-white/10 pt-3 flex justify-between font-medium text-base">
           <span>Total</span>
-          <span>{formatGbp(total)}</span>
+          <span className="text-teal">{formatGbp(total)}</span>
         </div>
       </div>
     </aside>

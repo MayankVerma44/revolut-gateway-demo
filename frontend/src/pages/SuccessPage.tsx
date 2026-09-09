@@ -24,25 +24,28 @@ export function SuccessPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-xl px-6 py-16">
-        <p className="text-sm uppercase tracking-[0.18em] text-teal">Payment success</p>
-        <h1 className="font-display text-4xl mt-3">Thank you. The order is confirmed.</h1>
-        <p className="mt-4 text-ink-soft">
+      <div className="page-container py-16 max-w-xl">
+        <span className="badge bg-emerald-500/20 border-emerald-400/30 text-emerald-300">
+          Payment success
+        </span>
+        <h1 className="page-title mt-4 text-3xl">Thank you. The order is confirmed.</h1>
+        <p className="mt-4 text-ink-soft leading-relaxed">
           Status was verified by the merchant backend, not trusted from the redirect alone.
         </p>
         {error && <p className="mt-4 text-rose">{error}</p>}
         {order && (
-          <div className="mt-8 rounded-3xl border border-line bg-paper p-6 space-y-2 text-sm">
-            <div>Order {order.id}</div>
-            <div>
+          <div className="mt-8 glass rounded-2xl p-6 space-y-2 text-sm">
+            <div className="text-ink-soft">Order</div>
+            <div className="font-mono text-xs text-ink-soft/80">{order.id}</div>
+            <div className="pt-2">
               {order.product.name} × {order.quantity}
             </div>
-            <div>{formatGbp(order.amountMinor)}</div>
-            <div className="capitalize">Status: {order.paymentStatus}</div>
-            <div>Integration: {order.integration.replace("_", " ")}</div>
+            <div className="text-teal font-medium">{formatGbp(order.amountMinor)}</div>
+            <div className="capitalize text-ink-soft">Status: {order.paymentStatus}</div>
+            <div className="text-ink-soft">Integration: {order.integration.replace("_", " ")}</div>
           </div>
         )}
-        <Link to="/" className="inline-flex mt-8 rounded-full bg-ink text-cream px-6 py-3">
+        <Link to="/" className="btn-primary mt-8">
           Back to the store
         </Link>
       </div>

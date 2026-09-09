@@ -9,7 +9,7 @@ export function IntegrationSelector({
 }) {
   return (
     <section>
-      <h2 className="font-display text-2xl">Payment experience</h2>
+      <h2 className="section-title">Payment experience</h2>
       <p className="mt-2 text-ink-soft text-sm">
         This selector chooses an integration architecture, not a card brand.
       </p>
@@ -27,7 +27,7 @@ export function IntegrationSelector({
           onClick={() => onChange("hosted_checkout")}
         />
       </div>
-      <div className="mt-4 rounded-2xl bg-ink text-cream p-5 text-sm leading-6">
+      <div className="mt-4 glass-strong rounded-2xl p-5 text-sm leading-6 text-ink-soft">
         {value === "revolut_checkout" ? (
           <>
             The customer stays on the merchant checkout. The backend creates a Revolut
@@ -36,9 +36,10 @@ export function IntegrationSelector({
           </>
         ) : (
           <>
-            The merchant backend creates a Revolut order and receives a <code>checkout_url</code>.
-            The browser then leaves this website and completes payment on Revolut-hosted
-            checkout before returning to a merchant confirmation page.
+            The merchant backend creates a Revolut order and receives a{" "}
+            <code className="text-teal text-xs">checkout_url</code>. The browser leaves this
+            website and completes payment on Revolut-hosted checkout before returning to the
+            merchant success page.
           </>
         )}
       </div>
@@ -61,14 +62,16 @@ function Option({
     <button
       type="button"
       onClick={onClick}
-      className={`text-left rounded-2xl border p-5 transition ${
-        selected ? "border-teal bg-paper shadow-sm" : "border-line bg-transparent"
+      className={`text-left rounded-2xl p-5 transition ${
+        selected
+          ? "glass-strong border-teal/40 ring-1 ring-teal/30"
+          : "glass hover:border-white/20"
       }`}
     >
       <div className="text-xs uppercase tracking-[0.18em] text-teal">
         {selected ? "Selected" : "Option"}
       </div>
-      <div className="mt-2 font-display text-xl">{title}</div>
+      <div className="mt-2 font-display text-lg font-semibold">{title}</div>
       <p className="mt-2 text-sm text-ink-soft">{subtitle}</p>
     </button>
   );
