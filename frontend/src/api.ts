@@ -6,8 +6,15 @@ import type {
   PublicOrder,
 } from "@demo/shared";
 
-async function parse<T>(responsePromise: Promise<Response>): Promise<T> {
-  const response = await responsePromise;
+async function request<T>(url: string, init?: RequestInit): Promise<T> {
+  let response: Response;
+  try {
+    response = await fetch(url, init);
+  } catch {
+    throw new Error(
+      "Cannot reach the backend API. Start the server with `npm run dev` (backend on port 3001).",
+    );
+  }
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
     throw new Error((body as { error?: string }).error ?? `Request failed (${response.status})`);
@@ -16,40 +23,32 @@ async function parse<T>(responsePromise: Promise<Response>): Promise<T> {
 }
 
 export const api = {
-  config: () => parse<PublicConfig>(fetch("/api/config")),
+  config: () => request<PublicConfig>("/api/config"),
   createOrder: (payload: CreateOrderRequest) =>
-    parse<{ order: PublicOrder }>(
-      fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }),
-    ),
-  getOrder: (id: string) => parse<{ order: PublicOrder }>(fetch(`/api/orders/${id}`)),
+    request<{ order: PublicOrder }>("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }),
+  getOrder: (id: string) => request<{ order: PublicOrder }>(`/api/orders/${id}`),
   getStatus: (id: string) =>
-    parse<{ order: PublicOrder; verifiedServerSide: true }>(fetch(`/api/orders/${id}/status`)),
+    request<{ order: PublicOrder; verifiedServerSide: true }>(`/api/orders/${id}/status`),
   createEmbedded: (localOrderId: string) =>
-    parse<EmbeddedCreateOrderResponse>(
-      fetch("/api/revolut/embedded/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ localOrderId }),
-      }),
-    ),
+    request<EmbeddedCreateOrderResponse>("/api/revolut/embedded/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ localOrderId }),
+    }),
   createHosted: (localOrderId: string) =>
-    parse<HostedCreateOrderResponse>(
-      fetch("/api/revolut/hosted/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ localOrderId }),
-      }),
-    ),
+    request<HostedCreateOrderResponse>("/api/revolut/hosted/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ localOrderId }),
+    }),
   simulate: (id: string, outcome: "completed" | "failed" | "cancelled" | "pending") =>
-    parse<{ order: PublicOrder }>(
-      fetch(`/api/demo/orders/${id}/simulate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ outcome }),
-      }),
-    ),
+    request<{ order: PublicOrder }>(`/api/demo/orders/${id}/simulate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ outcome }),
+    }),
 };

@@ -156,6 +156,33 @@ export function CheckoutPage() {
             </div>
           </section>
 
+          {!config.demoMode && !config.sandboxReady && (
+            <div className="rounded-2xl border border-amber bg-amber/10 p-4 text-sm">
+              <p className="font-medium text-amber">Sandbox keys required</p>
+              <p className="mt-2 text-ink-soft">
+                Set <code className="text-xs">DEMO_MODE=false</code> and add your Revolut sandbox
+                keys to <code className="text-xs">.env</code>, then restart{" "}
+                <code className="text-xs">npm run dev</code>.
+              </p>
+              <ul className="mt-2 list-disc pl-5 text-ink-soft space-y-1">
+                <li><code className="text-xs">REVOLUT_PUBLIC_KEY=pk_...</code></li>
+                <li><code className="text-xs">REVOLUT_SECRET_KEY=sk_...</code></li>
+              </ul>
+            </div>
+          )}
+
+          {!config.demoMode && config.sandboxReady && integration === "hosted_checkout" && !config.hostedCheckoutAvailable && (
+            <div className="rounded-2xl border border-amber bg-amber/10 p-4 text-sm">
+              <p className="font-medium text-amber">Hosted Checkout needs a public URL</p>
+              <p className="mt-2 text-ink-soft">
+                Revolut rejects <code className="text-xs">localhost</code> for{" "}
+                <code className="text-xs">redirect_url</code>. Use a tunnel (e.g. ngrok) and set{" "}
+                <code className="text-xs">APP_BASE_URL</code> to the public HTTPS URL. Embedded
+                Revolut Checkout works on localhost.
+              </p>
+            </div>
+          )}
+
           <IntegrationSelector
             value={integration}
             onChange={(next) => {
@@ -196,7 +223,13 @@ export function CheckoutPage() {
 
             <button
               type="submit"
-              disabled={busy}
+              disabled={
+                busy ||
+                (!config.demoMode && !config.sandboxReady) ||
+                (!config.demoMode &&
+                  integration === "hosted_checkout" &&
+                  !config.hostedCheckoutAvailable)
+              }
               className="mt-6 rounded-full bg-teal text-cream px-6 py-3 disabled:opacity-60"
             >
               {busy
