@@ -5,8 +5,9 @@ import { api } from "../api";
 import { useCart } from "../cart";
 import { useConfig } from "../config";
 import { DemoControls } from "../components/DemoControls";
-import { IntegrationSelector } from "../components/IntegrationSelector";
+import { IntegrationSelector, LockedIntegrationBadge } from "../components/IntegrationSelector";
 import { Layout } from "../components/Layout";
+import { useDemo } from "../demo";
 import { OrderSummary } from "../components/OrderSummary";
 import { createPaymentIntegration } from "../integrations/createPaymentIntegration";
 
@@ -23,6 +24,7 @@ const emptyCustomer: CustomerDetails = {
 export function CheckoutPage() {
   const cart = useCart();
   const config = useConfig();
+  const demo = useDemo();
   const navigate = useNavigate();
   const [customer, setCustomer] = useState(emptyCustomer);
   const [integration, setIntegration] = useState<IntegrationType>("revolut_checkout");
@@ -36,6 +38,10 @@ export function CheckoutPage() {
   useEffect(() => {
     return () => integrationRef.current?.destroy();
   }, []);
+
+  useEffect(() => {
+    if (demo.integration) setIntegration(demo.integration);
+  }, [demo.integration]);
 
   if (cart.quantity === 0) {
     return (
@@ -168,14 +174,18 @@ export function CheckoutPage() {
             </div>
           )}
 
-          <IntegrationSelector
-            value={integration}
-            onChange={(next) => {
-              setIntegration(next);
-              setLocalOrderId(null);
-              integrationRef.current?.destroy();
-            }}
-          />
+          {demo.isActive && demo.integration ? (
+            <LockedIntegrationBadge integration={demo.integration} />
+          ) : (
+            <IntegrationSelector
+              value={integration}
+              onChange={(next) => {
+                setIntegration(next);
+                setLocalOrderId(null);
+                integrationRef.current?.destroy();
+              }}
+            />
+          )}
 
           <section className="glass rounded-2xl p-6">
             <h2 className="section-title">Payment</h2>

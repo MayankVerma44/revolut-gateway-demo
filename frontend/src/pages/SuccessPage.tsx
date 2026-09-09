@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { formatGbp, type PublicOrder } from "@demo/shared";
 import { api } from "../api";
 import { useCart } from "../cart";
 import { Layout } from "../components/Layout";
+import { useDemo } from "../demo";
 
 export function SuccessPage() {
   const { id } = useParams();
   const cart = useCart();
+  const demo = useDemo();
   const [order, setOrder] = useState<PublicOrder | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,9 +47,9 @@ export function SuccessPage() {
             <div className="text-ink-soft">Integration: {order.integration.replace("_", " ")}</div>
           </div>
         )}
-        <Link to="/" className="btn-primary mt-8">
-          Back to the store
-        </Link>
+        <button type="button" className="btn-primary mt-8" onClick={demo.clear}>
+          Back to dashboard
+        </button>
       </div>
     </Layout>
   );
