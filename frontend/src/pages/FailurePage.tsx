@@ -18,22 +18,25 @@ export function FailurePage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-xl px-6 py-16">
-        <p className="text-sm uppercase tracking-[0.18em] text-rose">Payment unsuccessful</p>
-        <h1 className="font-display text-4xl mt-3">This payment did not complete.</h1>
-        <p className="mt-4 text-ink-soft">
+      <div className="page-container py-16 max-w-xl">
+        <span className="badge bg-rose-500/20 border-rose-400/30 text-rose-300">
+          Payment unsuccessful
+        </span>
+        <h1 className="page-title mt-4 text-3xl">This payment did not complete.</h1>
+        <p className="mt-4 text-ink-soft leading-relaxed">
           Reason: {reason}. You can return to checkout and try the other integration path.
         </p>
         {order && (
-          <p className="mt-4 text-sm">
-            Order {order.id} is currently <span className="capitalize">{order.paymentStatus}</span>.
+          <p className="mt-4 text-sm text-ink-soft">
+            Order <span className="font-mono text-xs">{order.id}</span> is currently{" "}
+            <span className="capitalize">{order.paymentStatus}</span>.
           </p>
         )}
-        <div className="mt-8 flex gap-3">
-          <Link to="/checkout" className="rounded-full bg-ink text-cream px-6 py-3">
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link to="/checkout" className="btn-primary">
             Return to checkout
           </Link>
-          <Link to="/" className="rounded-full border border-line px-6 py-3">
+          <Link to="/" className="btn-secondary">
             Store
           </Link>
         </div>

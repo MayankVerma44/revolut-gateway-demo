@@ -23,8 +23,39 @@ export const config = {
     | "prod",
   revolutApiVersion: process.env.REVOLUT_API_VERSION ?? "2026-04-20",
   revolutWebhookSecret: process.env.REVOLUT_WEBHOOK_SECRET?.trim() || "",
+  hostedRedirectBaseUrl:
+    process.env.REVOLUT_HOSTED_REDIRECT_URL?.trim() ||
+    process.env.APP_BASE_URL?.trim() ||
+    "http://localhost:5173",
   sqlitePath: process.env.SQLITE_PATH ?? path.resolve(here, "../data/orders.sqlite"),
 };
+
+function isLocalHostname(hostname: string): boolean {
+  return hostname === "localhost" || hostname === "127.0.0.1" || /^\d+\.\d+\.\d+\.\d+$/.test(hostname);
+}
+
+/** Revolut rejects localhost redirect_url in live mode — returns undefined to omit it. */
+export function hostedCheckoutRedirectUrl(localOrderId: string): string | undefined {
+  const base = config.hostedRedirectBaseUrl.replace(/\/$/, "");
+  const redirectUrl = `${base}/order/${localOrderId}/success`;
+  if (config.demoMode) return redirectUrl;
+  try {
+    const host = new URL(base).hostname;
+    if (isLocalHostname(host)) return undefined;
+  } catch {
+    return undefined;
+  }
+  return redirectUrl;
+}
+
+export function isLocalHostedRedirect(): boolean {
+  try {
+    const host = new URL(config.hostedRedirectBaseUrl).hostname;
+    return isLocalHostname(host);
+  } catch {
+    return true;
+  }
+}
 
 export function revolutMerchantBaseUrl(): string {
   return config.revolutMode === "prod"
@@ -34,16 +65,6 @@ export function revolutMerchantBaseUrl(): string {
 
 export function isSandboxReady(): boolean {
   return !config.demoMode && Boolean(config.revolutPublicKey && config.revolutSecretKey);
-}
-
-export function isHostedCheckoutAvailable(): boolean {
-  if (config.demoMode) return true;
-  try {
-    const host = new URL(config.appBaseUrl).hostname;
-    return host !== "localhost" && host !== "127.0.0.1" && !/^\d+\.\d+\.\d+\.\d+$/.test(host);
-  } catch {
-    return false;
-  }
 }
 
 export function assertLiveModeReady(): void {

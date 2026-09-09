@@ -18,8 +18,8 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   if (error) {
     return (
       <div className="min-h-screen grid place-items-center p-8">
-        <div className="max-w-md rounded-2xl bg-paper p-8 shadow-sm">
-          <h1 className="font-display text-2xl">Cannot reach the demo API</h1>
+        <div className="glass max-w-md rounded-2xl p-8">
+          <h1 className="font-display text-2xl font-semibold">Cannot reach the demo API</h1>
           <p className="mt-3 text-ink-soft">{error}. Start the backend on port 3001.</p>
         </div>
       </div>
@@ -29,7 +29,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
   if (!config) {
     return (
       <div className="min-h-screen grid place-items-center text-ink-soft">
-        Loading merchant demo…
+        <div className="h-8 w-8 rounded-full border-2 border-teal/30 border-t-teal animate-spin" />
       </div>
     );
   }
