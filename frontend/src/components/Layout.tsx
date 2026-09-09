@@ -17,7 +17,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-50 glass border-b border-white/10">
         <div className="page-container py-4 flex items-center justify-between gap-6">
           <Link to="/" className="font-display text-xl font-semibold tracking-tight">
-            Northline Audio
+            Revolut Demo
           </Link>
           <nav className="flex items-center gap-1">
             <NavLink
@@ -45,8 +45,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1">{children}</main>
       <footer className="mt-16 border-t border-white/10">
         <div className="page-container py-10 text-sm text-ink-soft flex flex-col gap-2 md:flex-row md:justify-between">
-          <p>Northline Audio — fictional merchant for Revolut integration discussions.</p>
-          <p className="text-ink-soft/70">Payments stay in sandbox unless production keys are configured.</p>
+          <p>Internal demonstration tool for Revolut checkout integrations.</p>
+          <p className="text-ink-soft/60">Interactive demos powered by the Revolut Merchant API.</p>
         </div>
       </footer>
     </div>
