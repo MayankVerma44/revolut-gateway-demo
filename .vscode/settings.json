@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    ".env": "dotenv",
+    ".env.example": "dotenv"
+  },
+  "terminal.integrated.env.osx": {
+    "NODE_VERSION": "20"
+  }
+}
