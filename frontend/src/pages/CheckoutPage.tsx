@@ -107,7 +107,7 @@ export function CheckoutPage() {
     <Layout>
       {leaving && (
         <div className="glass-strong border-b border-teal/30 text-center py-3 px-4 text-sm text-teal">
-          Leaving Northline Audio — redirecting to Revolut-hosted checkout…
+          Leaving the merchant site — redirecting to Revolut-hosted checkout…
         </div>
       )}
       <form onSubmit={onSubmit} className="page-container py-12 grid lg:grid-cols-[1fr_340px] gap-10">

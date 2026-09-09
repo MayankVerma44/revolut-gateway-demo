@@ -101,7 +101,7 @@ export function Layout({
         <footer className="app-footer">
           <div className="page-container py-10 text-sm text-ink-soft flex flex-col gap-2 md:flex-row md:justify-between">
             <p>Internal demonstration tool for Revolut checkout integrations.</p>
-            <p className="text-ink-soft/60">Northline Audio is a fictional merchant storefront.</p>
+            <p className="text-ink-soft/60">Interactive demos powered by the Revolut Merchant API.</p>
           </div>
         </footer>
       )}
