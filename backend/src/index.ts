@@ -20,7 +20,7 @@ const orderService = new OrderService(store, revolut);
 const webhookService = new WebhookService(store, store, orderService);
 const app = createApp(orderService, webhookService);
 
-app.listen(config.port, () => {
+app.listen(config.port, "0.0.0.0", () => {
   log("info", "server.started", {
     port: config.port,
     demoMode: config.demoMode,

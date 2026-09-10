@@ -1,0 +1,37 @@
+# Render Blueprint — backend API only.
+# Frontend deploys separately on Vercel (see vercel.json).
+#
+# After both are live:
+#   Vercel  → VITE_API_URL=https://<this-service>.onrender.com
+#   Render  → APP_BASE_URL=https://<your-vercel-domain>
+#   Render  → REVOLUT_HOSTED_REDIRECT_URL=https://<your-vercel-domain> (for hosted checkout return)
+
+services:
+  - type: web
+    name: revolut-gateway-api
+    runtime: node
+    region: frankfurt
+    plan: free
+    branch: cursor/revolut-gateway-demo-initial
+    buildCommand: npm install && npm run build -w shared && npm run build -w backend
+    startCommand: npm run start -w backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: DEMO_MODE
+        value: "true"
+      - key: APP_BASE_URL
+        sync: false
+      - key: REVOLUT_PUBLIC_KEY
+        sync: false
+      - key: REVOLUT_SECRET_KEY
+        sync: false
+      - key: REVOLUT_MODE
+        value: sandbox
+      - key: REVOLUT_API_VERSION
+        value: "2026-04-20"
+      - key: REVOLUT_HOSTED_REDIRECT_URL
+        sync: false
+      - key: REVOLUT_WEBHOOK_SECRET
+        sync: false
