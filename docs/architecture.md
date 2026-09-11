@@ -1,15 +1,15 @@
 # Architecture
 
-## Modes
+## Revolut API
 
-`DEMO_MODE=true` swaps the Revolut HTTP client for `DemoRevolutProvider`. Routes, order model, frontend `PaymentIntegration` types, and webhook handling stay the same.
-
-`DEMO_MODE=false` uses `LiveRevolutProvider` against:
+The backend uses `LiveRevolutProvider` against:
 
 - sandbox: `https://sandbox-merchant.revolut.com`
 - prod: `https://merchant.revolut.com`
 
 Selected by `REVOLUT_MODE`.
+
+Both `REVOLUT_PUBLIC_KEY` and `REVOLUT_SECRET_KEY` must be configured for checkout. `GET /api/config` reports `sandboxReady` when keys are present.
 
 ## Frontend abstraction
 
@@ -27,7 +27,7 @@ The React tree does not create Revolut orders itself.
 ```
 HTTP routes
   → OrderService / WebhookService
-    → RevolutProvider (demo | live)
+    → LiveRevolutProvider
     → OrderRepository (SQLite via sql.js)
 ```
 
@@ -47,7 +47,7 @@ HTTP routes
 ### Hosted Checkout
 
 1. Local order is created with `hosted_checkout`.
-2. Backend creates a Revolut order with `redirect_url` = `{APP_BASE_URL}/order/{id}/return`.
+2. Backend creates a Revolut order with `redirect_url` = `{REVOLUT_HOSTED_REDIRECT_URL or APP_BASE_URL}/order/{id}/success`.
 3. Response includes `checkout_url`.
 4. Browser leaves the merchant origin (banner shown before redirect).
 5. After payment, Revolut sends the shopper back. The return page verifies status server-side.

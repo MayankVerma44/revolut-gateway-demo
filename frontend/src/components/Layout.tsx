@@ -1,14 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../cart";
 import { useConfig } from "../config";
-import { useDemo } from "../demo";
+import { useCheckoutSession } from "../checkoutSession";
 
-type LayoutMode = "dashboard" | "demo" | "minimal";
+type LayoutMode = "dashboard" | "store" | "minimal";
 
-function resolveMode(pathname: string, demoActive: boolean, explicit?: LayoutMode): LayoutMode {
+function resolveMode(pathname: string, sessionActive: boolean, explicit?: LayoutMode): LayoutMode {
   if (explicit) return explicit;
   if (pathname === "/") return "dashboard";
-  if (demoActive && !pathname.startsWith("/order/")) return "demo";
+  if (sessionActive && !pathname.startsWith("/order/")) return "store";
   return "minimal";
 }
 
@@ -21,9 +21,9 @@ export function Layout({
 }) {
   const cart = useCart();
   const config = useConfig();
-  const demo = useDemo();
+  const session = useCheckoutSession();
   const { pathname } = useLocation();
-  const layoutMode = resolveMode(pathname, demo.isActive, mode);
+  const layoutMode = resolveMode(pathname, session.isActive, mode);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -34,9 +34,9 @@ export function Layout({
               to="/"
               className="brand-mark shrink-0"
               onClick={(e) => {
-                if (demo.isActive) {
+                if (session.isActive) {
                   e.preventDefault();
-                  demo.clear();
+                  session.clear();
                 }
               }}
             >
@@ -49,49 +49,49 @@ export function Layout({
               </span>
             </Link>
 
-            {layoutMode === "demo" && demo.isActive && (
+            {layoutMode === "store" && session.isActive && (
               <div className="demo-chip hidden sm:flex">
-                <span className="text-ink-soft">{demo.solutionName}</span>
+                <span className="text-ink-soft">{session.solutionName}</span>
                 <span className="text-ink-soft/50">·</span>
-                <span className="text-teal">{demo.demoLabel}</span>
+                <span className="text-teal">{session.solutionLabel}</span>
               </div>
             )}
           </div>
 
           <nav className="flex items-center gap-2 shrink-0">
-            {layoutMode === "demo" && (
+            {layoutMode === "store" && (
               <>
                 <Link to="/product" className="nav-link hidden md:inline-flex">Store</Link>
                 <Link to="/cart" className="nav-link">
                   Cart{cart.quantity > 0 ? ` (${cart.quantity})` : ""}
                 </Link>
-                <button type="button" className="btn-ghost text-sm" onClick={demo.clear}>
+                <button type="button" className="btn-ghost text-sm" onClick={session.clear}>
                   ← Dashboard
                 </button>
               </>
             )}
             {layoutMode === "minimal" && pathname.startsWith("/order/") && (
-              <button type="button" className="btn-ghost text-sm" onClick={demo.clear}>
+              <button type="button" className="btn-ghost text-sm" onClick={session.clear}>
                 ← Dashboard
               </button>
             )}
           </nav>
         </div>
 
-        {layoutMode === "demo" && demo.isActive && (
+        {layoutMode === "store" && session.isActive && (
           <div className="demo-chip-mobile sm:hidden page-container pb-3">
-            <span className="text-ink-soft">{demo.solutionName}</span>
-            <span className="text-teal">{demo.demoLabel}</span>
+            <span className="text-ink-soft">{session.solutionName}</span>
+            <span className="text-teal">{session.solutionLabel}</span>
           </div>
         )}
       </header>
 
-      {layoutMode === "demo" && (
+      {layoutMode === "store" && (
         <div className="env-banner">
           <span className="status-dot" />
-          {config.demoMode
-            ? "Demonstration store — DEMO mode"
-            : `Demonstration store — ${config.revolutMode.toUpperCase()} sandbox`}
+          {config.sandboxReady
+            ? `Demonstration store — ${config.revolutMode.toUpperCase()} sandbox`
+            : "Demonstration store — configure Revolut sandbox keys"}
         </div>
       )}
 

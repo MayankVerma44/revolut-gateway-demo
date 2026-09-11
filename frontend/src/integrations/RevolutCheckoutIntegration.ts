@@ -14,9 +14,6 @@ export class RevolutCheckoutIntegration implements PaymentIntegration {
     if (!context.target) {
       throw new Error("Embedded checkout requires a mount target.");
     }
-    if (this.config.demoMode) {
-      throw new Error("Use the demo widget in DEMO mode.");
-    }
     if (!this.config.revolutPublicKey) {
       throw new Error("REVOLUT_PUBLIC_KEY is required for Revolut Checkout.");
     }

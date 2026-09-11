@@ -2,23 +2,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { formatGbp, PRODUCT } from "@demo/shared";
 import { useCart } from "../cart";
-import { useDemo } from "../demo";
+import { useCheckoutSession } from "../checkoutSession";
 import { HeadphonesArt } from "../components/HeadphonesArt";
 import { Layout } from "../components/Layout";
 
 export function ProductPage() {
   const cart = useCart();
-  const demo = useDemo();
+  const session = useCheckoutSession();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
 
   return (
     <Layout>
       <div className="page-container py-10 md:py-12">
-        {demo.isActive && (
+        {session.isActive && (
           <p className="text-sm text-ink-soft mb-8 max-w-2xl">
-            You&apos;re exploring the <span className="text-teal">{demo.demoLabel}</span>. Add the
-            product to cart and proceed to checkout to experience the integration.
+            You&apos;re exploring the <span className="text-teal">{session.solutionLabel}</span>.
+            Add the product to cart and proceed to checkout to experience the integration.
           </p>
         )}
         <div className="grid md:grid-cols-2 gap-8 lg:gap-10">

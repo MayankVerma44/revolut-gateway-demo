@@ -19,7 +19,3 @@ export const createOrderSchema = z.object({
 export const localOrderIdSchema = z.object({
   localOrderId: z.string().uuid(),
 });
-
-export const simulateSchema = z.object({
-  outcome: z.enum(["completed", "failed", "cancelled", "pending"]),
-});

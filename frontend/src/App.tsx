@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { CartPage } from "./pages/CartPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
-import { DemoHostedCheckoutPage } from "./pages/DemoHostedCheckoutPage";
 import { FailurePage } from "./pages/FailurePage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { OrderReturnPage } from "./pages/OrderReturnPage";
@@ -18,7 +17,6 @@ export default function App() {
       <Route path="/order/:id/return" element={<OrderReturnPage />} />
       <Route path="/order/:id/success" element={<SuccessPage />} />
       <Route path="/order/:id/failure" element={<FailurePage />} />
-      <Route path="/demo/hosted-checkout" element={<DemoHostedCheckoutPage />} />
     </Routes>
   );
 }

@@ -19,8 +19,6 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
-      - key: DEMO_MODE
-        value: "false"
       - key: APP_BASE_URL
         value: "https://revolut-gateway-demo.vercel.app"
       - key: REVOLUT_PUBLIC_KEY

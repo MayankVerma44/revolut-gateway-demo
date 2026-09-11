@@ -5,7 +5,7 @@ import {
   type CreateOrderRequest,
   type PaymentStatus,
 } from "@demo/shared";
-import { config, hostedCheckoutRedirectUrl } from "./config.js";
+import { assertLiveModeReady, hostedCheckoutRedirectUrl } from "./config.js";
 import type { StoredOrder } from "./domain.js";
 import { log } from "./logger.js";
 import { mapRevolutState, toPublicOrder } from "./mappers.js";
@@ -66,7 +66,19 @@ export class OrderService {
     return order;
   }
 
+  private requireRevolutKeys(): void {
+    try {
+      assertLiveModeReady();
+    } catch (error) {
+      throw new HttpError(
+        503,
+        error instanceof Error ? error.message : "Revolut keys not configured",
+      );
+    }
+  }
+
   async createEmbeddedRevolutOrder(localOrderId: string) {
+    this.requireRevolutKeys();
     const order = await this.require(localOrderId);
     if (order.integration !== "revolut_checkout") {
       throw new HttpError(409, "Order was not created for Revolut Checkout");
@@ -96,6 +108,7 @@ export class OrderService {
   }
 
   async createHostedRevolutOrder(localOrderId: string) {
+    this.requireRevolutKeys();
     const order = await this.require(localOrderId);
     if (order.integration !== "hosted_checkout") {
       throw new HttpError(409, "Order was not created for Hosted Checkout");
@@ -133,7 +146,7 @@ export class OrderService {
 
   async refreshFromRevolut(localOrderId: string) {
     const order = await this.require(localOrderId);
-    if (config.demoMode || !order.revolutOrderId) {
+    if (!order.revolutOrderId) {
       return toPublicOrder(order);
     }
     try {

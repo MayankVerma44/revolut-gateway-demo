@@ -55,13 +55,12 @@ export interface PublicOrder {
 }
 
 export interface PublicConfig {
-  demoMode: boolean;
   revolutMode: "sandbox" | "prod";
   revolutPublicKey: string | null;
   appBaseUrl: string;
-  /** True when DEMO_MODE is off and both Revolut keys are configured on the server. */
+  /** True when both Revolut keys are configured on the server. */
   sandboxReady: boolean;
-  /** True when hosted checkout redirect uses localhost (demo simulates return; live omits redirect_url). */
+  /** True when hosted checkout redirect uses localhost (Revolut omits redirect_url). */
   localHostedRedirect: boolean;
 }
 

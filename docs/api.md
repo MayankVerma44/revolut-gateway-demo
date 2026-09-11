@@ -12,14 +12,15 @@ Public runtime config for the storefront.
 
 ```json
 {
-  "demoMode": true,
   "revolutMode": "sandbox",
-  "revolutPublicKey": null,
-  "appBaseUrl": "http://localhost:5173"
+  "revolutPublicKey": "pk_...",
+  "appBaseUrl": "http://localhost:5173",
+  "sandboxReady": true,
+  "localHostedRedirect": false
 }
 ```
 
-`revolutPublicKey` is omitted/null in DEMO mode even if a key exists in `.env`.
+`sandboxReady` is true when both `REVOLUT_PUBLIC_KEY` and `REVOLUT_SECRET_KEY` are configured on the server.
 
 ## `POST /api/orders`
 
@@ -67,7 +68,7 @@ Local order snapshot.
 
 ## `GET /api/orders/:id/status`
 
-Local snapshot, plus a Merchant API retrieve when DEMO mode is off and a Revolut order id exists.
+Local snapshot, plus a Merchant API retrieve when a Revolut order id exists.
 
 ```json
 { "order": { "...": "..." }, "verifiedServerSide": true }
@@ -79,13 +80,3 @@ Raw Revolut webhook receiver. Optional signature headers:
 
 - `Revolut-Request-Timestamp`
 - `Revolut-Signature`
-
-## `POST /api/demo/orders/:id/simulate`
-
-DEMO mode only.
-
-```json
-{ "outcome": "completed" }
-```
-
-`outcome`: `completed` | `failed` | `cancelled` | `pending`.

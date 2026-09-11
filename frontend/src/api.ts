@@ -58,10 +58,4 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ localOrderId }),
     }),
-  simulate: (id: string, outcome: "completed" | "failed" | "cancelled" | "pending") =>
-    request<{ order: PublicOrder }>(apiUrl(`/api/demo/orders/${id}/simulate`), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ outcome }),
-    }),
 };

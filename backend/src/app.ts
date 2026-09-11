@@ -7,11 +7,7 @@ import cors from "cors";
 import { config, isLocalHostedRedirect, isSandboxReady } from "./config.js";
 import { log } from "./logger.js";
 import { HttpError, type OrderService } from "./orderService.js";
-import {
-  createOrderSchema,
-  localOrderIdSchema,
-  simulateSchema,
-} from "./validation.js";
+import { createOrderSchema, localOrderIdSchema } from "./validation.js";
 import type { WebhookService } from "./webhookService.js";
 
 export function createApp(orderService: OrderService, webhookService: WebhookService) {
@@ -26,14 +22,13 @@ export function createApp(orderService: OrderService, webhookService: WebhookSer
   );
 
   app.get("/api/health", (_req, res) => {
-    res.json({ ok: true, demoMode: config.demoMode, revolutMode: config.revolutMode });
+    res.json({ ok: true, revolutMode: config.revolutMode, sandboxReady: isSandboxReady() });
   });
 
   app.get("/api/config", (_req, res) => {
     res.json({
-      demoMode: config.demoMode,
       revolutMode: config.revolutMode,
-      revolutPublicKey: config.demoMode ? null : config.revolutPublicKey || null,
+      revolutPublicKey: config.revolutPublicKey || null,
       appBaseUrl: config.appBaseUrl,
       sandboxReady: isSandboxReady(),
       localHostedRedirect: isLocalHostedRedirect(),
@@ -98,19 +93,6 @@ export function createApp(orderService: OrderService, webhookService: WebhookSer
       }
       const result = await webhookService.handle(raw, headerMap);
       res.status(result.accepted ? 200 : 400).json(result);
-    } catch (error) {
-      next(error);
-    }
-  });
-
-  app.post("/api/demo/orders/:id/simulate", async (req, res, next) => {
-    try {
-      if (!config.demoMode) {
-        throw new HttpError(403, "Simulation is only available in DEMO mode");
-      }
-      const { outcome } = simulateSchema.parse(req.body);
-      const order = await orderService.applyStatus(req.params.id, outcome, "demo.simulate");
-      res.json({ order });
     } catch (error) {
       next(error);
     }

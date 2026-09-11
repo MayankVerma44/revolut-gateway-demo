@@ -1,9 +1,9 @@
 import type { SolutionMeta } from "../../constants/solutions";
-import { useDemo } from "../../demo";
+import { useCheckoutSession } from "../../checkoutSession";
 import { SolutionIcon } from "./SolutionIcon";
 
 export function SolutionCard({ solution }: { solution: SolutionMeta }) {
-  const demo = useDemo();
+  const session = useCheckoutSession();
 
   return (
     <article className="solution-card group">
@@ -31,7 +31,7 @@ export function SolutionCard({ solution }: { solution: SolutionMeta }) {
       <button
         type="button"
         className="btn-primary mt-8 w-full"
-        onClick={() => demo.launch(solution.id)}
+        onClick={() => session.launch(solution.id)}
       >
         Launch Demo
       </button>

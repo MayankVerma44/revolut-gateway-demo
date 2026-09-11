@@ -10,18 +10,18 @@ import { useNavigate } from "react-router-dom";
 import type { IntegrationType } from "@demo/shared";
 import { getSolution } from "./constants/solutions";
 
-interface DemoContextValue {
+interface CheckoutSessionValue {
   integration: IntegrationType | null;
-  demoLabel: string | null;
+  solutionLabel: string | null;
   solutionName: string | null;
   isActive: boolean;
   launch: (integration: IntegrationType) => void;
   clear: () => void;
 }
 
-const DemoContext = createContext<DemoContextValue | null>(null);
+const CheckoutSessionContext = createContext<CheckoutSessionValue | null>(null);
 
-export function DemoProvider({ children }: { children: ReactNode }) {
+export function CheckoutSessionProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const [integration, setIntegration] = useState<IntegrationType | null>(null);
 
@@ -38,11 +38,11 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     navigate("/");
   }, [navigate]);
 
-  const value = useMemo<DemoContextValue>(() => {
+  const value = useMemo<CheckoutSessionValue>(() => {
     if (!integration) {
       return {
         integration: null,
-        demoLabel: null,
+        solutionLabel: null,
         solutionName: null,
         isActive: false,
         launch,
@@ -52,7 +52,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     const solution = getSolution(integration);
     return {
       integration,
-      demoLabel: solution.demoLabel,
+      solutionLabel: solution.demoLabel,
       solutionName: solution.name,
       isActive: true,
       launch,
@@ -60,11 +60,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     };
   }, [integration, launch, clear]);
 
-  return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;
+  return (
+    <CheckoutSessionContext.Provider value={value}>{children}</CheckoutSessionContext.Provider>
+  );
 }
 
-export function useDemo() {
-  const value = useContext(DemoContext);
-  if (!value) throw new Error("DemoProvider missing");
+export function useCheckoutSession() {
+  const value = useContext(CheckoutSessionContext);
+  if (!value) throw new Error("CheckoutSessionProvider missing");
   return value;
 }

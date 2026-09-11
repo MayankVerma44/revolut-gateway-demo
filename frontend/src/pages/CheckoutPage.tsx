@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import type { CustomerDetails, IntegrationType } from "@demo/shared";
 import { api } from "../api";
 import { useCart } from "../cart";
 import { useConfig } from "../config";
-import { DemoControls } from "../components/DemoControls";
 import { IntegrationSelector, LockedIntegrationBadge } from "../components/IntegrationSelector";
 import { Layout } from "../components/Layout";
-import { useDemo } from "../demo";
+import { useCheckoutSession } from "../checkoutSession";
 import { OrderSummary } from "../components/OrderSummary";
 import { createPaymentIntegration } from "../integrations/createPaymentIntegration";
 
@@ -24,11 +23,9 @@ const emptyCustomer: CustomerDetails = {
 export function CheckoutPage() {
   const cart = useCart();
   const config = useConfig();
-  const demo = useDemo();
-  const navigate = useNavigate();
+  const session = useCheckoutSession();
   const [customer, setCustomer] = useState(emptyCustomer);
   const [integration, setIntegration] = useState<IntegrationType>("revolut_checkout");
-  const [localOrderId, setLocalOrderId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [leaving, setLeaving] = useState(false);
@@ -40,8 +37,8 @@ export function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    if (demo.integration) setIntegration(demo.integration);
-  }, [demo.integration]);
+    if (session.integration) setIntegration(session.integration);
+  }, [session.integration]);
 
   if (cart.quantity === 0) {
     return (
@@ -62,7 +59,6 @@ export function CheckoutPage() {
     setError(null);
     setBusy(true);
     try {
-      setLocalOrderId(null);
       const orderId = (
         await api.createOrder({
           quantity: cart.quantity,
@@ -70,19 +66,12 @@ export function CheckoutPage() {
           integration,
         })
       ).order.id;
-      setLocalOrderId(orderId);
 
       if (integration === "hosted_checkout") {
         setLeaving(true);
         const hosted = createPaymentIntegration("hosted_checkout", config);
         integrationRef.current = hosted;
         await hosted.start({ localOrderId: orderId, email: customer.email });
-        return;
-      }
-
-      if (config.demoMode) {
-        await api.createEmbedded(orderId);
-        setBusy(false);
         return;
       }
 
@@ -163,25 +152,24 @@ export function CheckoutPage() {
             </div>
           </section>
 
-          {!config.demoMode && !config.sandboxReady && (
+          {!config.sandboxReady && (
             <div className="alert-warning">
               <p className="font-medium text-amber">Sandbox keys required</p>
               <p className="mt-2 text-ink-soft">
-                Set <code className="text-xs">DEMO_MODE=false</code> and add your Revolut sandbox
-                keys to <code className="text-xs">.env</code>, then restart{" "}
+                Add your Revolut sandbox keys to <code className="text-xs">.env</code> (or the
+                Render service environment), then restart{" "}
                 <code className="text-xs">npm run dev</code>.
               </p>
             </div>
           )}
 
-          {demo.isActive && demo.integration ? (
-            <LockedIntegrationBadge integration={demo.integration} />
+          {session.isActive && session.integration ? (
+            <LockedIntegrationBadge integration={session.integration} />
           ) : (
             <IntegrationSelector
               value={integration}
               onChange={(next) => {
                 setIntegration(next);
-                setLocalOrderId(null);
                 integrationRef.current?.destroy();
               }}
             />
@@ -195,45 +183,27 @@ export function CheckoutPage() {
               </p>
             ) : (
               <p className="mt-2 text-sm text-ink-soft">
-                Hosted Checkout sends the customer to Revolut, then returns to your local success
-                page after payment.
+                Hosted Checkout sends the customer to Revolut, then returns to your success page
+                after payment.
               </p>
             )}
 
             {integration === "hosted_checkout" &&
-              !config.demoMode &&
               config.sandboxReady &&
               config.localHostedRedirect && (
                 <p className="mt-3 text-xs text-ink-soft/80 leading-relaxed">
-                  Revolut cannot redirect to localhost in live sandbox. Payment completes on
-                  Revolut&apos;s page — use demo controls on the simulated page, or set{" "}
-                  <code className="text-teal">REVOLUT_HOSTED_REDIRECT_URL</code> to a public tunnel
-                  URL for automatic return.
+                  Revolut cannot redirect to localhost in sandbox. Payment completes on
+                  Revolut&apos;s page — set{" "}
+                  <code className="text-teal">REVOLUT_HOSTED_REDIRECT_URL</code> to a public URL
+                  for automatic return after payment.
                 </p>
               )}
 
             <div ref={widgetRef} id="checkout-container" className="mt-4 min-h-16" />
 
-            {config.demoMode && integration === "revolut_checkout" && localOrderId && (
-              <div className="mt-4 space-y-4">
-                <div className="glass-strong rounded-xl p-4">
-                  <div className="text-sm font-medium">Embedded widget (simulated)</div>
-                  <p className="text-sm text-ink-soft mt-1">
-                    In sandbox mode this region is replaced by the official Revolut Checkout Web
-                    SDK.
-                  </p>
-                </div>
-                <DemoControls orderId={localOrderId} onDone={(path) => navigate(path)} />
-              </div>
-            )}
-
             {error && <p className="mt-4 text-rose text-sm">{error}</p>}
 
-            <button
-              type="submit"
-              disabled={busy || (!config.demoMode && !config.sandboxReady)}
-              className="btn-primary mt-6"
-            >
+            <button type="submit" disabled={busy || !config.sandboxReady} className="btn-primary mt-6">
               {busy
                 ? "Working…"
                 : integration === "hosted_checkout"

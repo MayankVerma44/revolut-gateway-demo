@@ -32,9 +32,9 @@ export function DashboardPage() {
           </p>
           <div className="mt-6 inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs text-ink-soft">
             <span className="status-dot" />
-            {config.demoMode
-              ? "DEMO environment — simulated Revolut responses"
-              : `Live ${config.revolutMode} sandbox — real Revolut API`}
+            {config.sandboxReady
+              ? `Live ${config.revolutMode} sandbox — real Revolut API`
+              : "Configure Revolut sandbox keys to enable checkout"}
           </div>
         </section>
 

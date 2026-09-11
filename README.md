@@ -5,13 +5,13 @@ A polished dummy ecommerce store for **Northline Audio**. Merchants can walk a r
 1. **Revolut Checkout** — embedded widget on the merchant page (Web SDK)
 2. **Hosted Checkout** — server-created order, browser redirect to Revolut `checkout_url`
 
-The app runs in **DEMO mode** (no credentials) or **REAL SANDBOX mode** (Merchant API + official SDK). Secret keys never leave the backend.
+The app uses the Revolut Merchant API and official SDK. Secret keys never leave the backend.
 
 ## Project structure
 
 ```
 frontend/   React + Vite + TypeScript storefront
-backend/    Express API, SQLite repository, Revolut providers
+backend/    Express API, SQLite repository, Revolut provider
 shared/     Shared order types and product catalog
 docs/       Architecture and API notes
 ```
@@ -27,24 +27,12 @@ npm run dev
 - Storefront: http://localhost:5173
 - API: http://localhost:3001
 
-`DEMO_MODE=true` is the default.
-
-## DEMO mode
-
-Leave `DEMO_MODE=true`. Do not set live secrets.
-
-- Embedded checkout shows an in-page simulated widget and outcome buttons.
-- Hosted checkout redirects to a clearly labelled **simulated Revolut-hosted page** inside this app.
-- Demo controls: success, failed, cancelled, pending.
-- Webhook endpoint is live and can accept events even in DEMO mode.
-
-## REAL SANDBOX mode
+## Revolut sandbox
 
 1. Create a [Revolut Merchant sandbox](https://developer.revolut.com/docs/guides/merchant/test-and-go-live/set-up-sandbox) account and API keys.
 2. Put keys in `.env`:
 
 ```
-DEMO_MODE=false
 REVOLUT_MODE=sandbox
 REVOLUT_PUBLIC_KEY=pk_...
 REVOLUT_SECRET_KEY=sk_...
@@ -59,7 +47,9 @@ The frontend only receives the **public** key via `GET /api/config`. Order creat
 
 Embedded checkout uses `@revolut/checkout` `embeddedCheckout()` with `createOrder` returning `{ publicId: token }`, matching current Revolut Checkout Web docs.
 
-Hosted checkout creates an order with `redirect_url` set to `/order/:id/return`. The confirmation page always calls `GET /api/orders/:id/status` and, outside DEMO mode, retrieves the Revolut order before showing success.
+Hosted checkout creates an order with `redirect_url` set to `/order/:id/success`. The confirmation page always calls `GET /api/orders/:id/status` and retrieves the Revolut order before showing success.
+
+For local hosted checkout, set `REVOLUT_HOSTED_REDIRECT_URL` to a public tunnel URL — Revolut sandbox rejects localhost redirect URLs.
 
 ## Scripts
 
