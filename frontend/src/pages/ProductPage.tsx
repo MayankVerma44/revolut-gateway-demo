@@ -17,9 +17,8 @@ export function ProductPage() {
       <div className="page-container py-10 md:py-12">
         {demo.isActive && (
           <p className="text-sm text-ink-soft mb-8 max-w-2xl">
-            You&apos;re exploring the <span className="text-teal">{demo.demoLabel}</span> using a
-            fictional Northline Audio storefront. Add the product to cart and proceed to checkout
-            to experience the integration.
+            You&apos;re exploring the <span className="text-teal">{demo.demoLabel}</span>. Add the
+            product to cart and proceed to checkout to experience the integration.
           </p>
         )}
         <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
