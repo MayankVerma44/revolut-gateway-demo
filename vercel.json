@@ -6,7 +6,7 @@
   "framework": "vite",
   "build": {
     "env": {
-      "VITE_API_URL": "https://revolut-gateway-demo.onrender.com"
+      "VITE_API_URL": "https://revolut-gateway-demo-1.onrender.com"
     }
   },
   "rewrites": [
