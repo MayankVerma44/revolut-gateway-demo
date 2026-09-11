@@ -4,6 +4,11 @@
   "installCommand": "npm install",
   "outputDirectory": "frontend/dist",
   "framework": "vite",
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://revolut-gateway-demo.onrender.com"
+    }
+  },
   "rewrites": [
     {
       "source": "/(.*)",
