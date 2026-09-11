@@ -9,3 +9,6 @@ backend/data
 *.db
 .vite
 coverage
+.vercel
+.vercel-deploy-*
+.vercel-mcp-invoke.json
