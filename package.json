@@ -1,7 +1,7 @@
 {
   "name": "revolut-gateway-demo",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Merchant demo comparing Revolut Checkout (embedded) and Hosted Checkout integrations.",
   "workspaces": [
     "shared",
@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "concurrently -n backend,frontend -c blue,magenta \"npm run dev -w backend\" \"npm run dev -w frontend\"",
     "build": "npm run build -w shared && npm run build -w backend && npm run build -w frontend",
+    "build:api": "npm run build -w shared && npm run build -w backend",
     "typecheck": "npm run typecheck -w shared && npm run typecheck -w backend && npm run typecheck -w frontend",
     "start": "npm run start -w backend"
   },
@@ -18,9 +19,6 @@
     "concurrently": "^9.1.2"
   },
   "engines": {
-    "node": ">=18"
-  },
-  "dependencies": {
-    "@tailwindcss/oxide-darwin-arm64": "^4.3.3"
+    "node": ">=20"
   }
 }
