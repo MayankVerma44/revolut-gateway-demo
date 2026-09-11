@@ -11,4 +11,6 @@ backend/data
 coverage
 .vercel
 .vercel-deploy-*
-.vercel-mcp-invoke.json
+.vercel-mcp-*
+.vercel-prebuilt-*
+.vercel-full-deploy-args.json
