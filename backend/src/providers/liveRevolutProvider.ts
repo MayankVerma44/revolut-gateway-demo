@@ -48,11 +48,20 @@ export class LiveRevolutProvider implements RevolutProvider {
       parsed = { raw: text };
     }
     if (!response.ok) {
+      const detail =
+        parsed && typeof parsed === "object" && "message" in parsed
+          ? String((parsed as { message?: string }).message)
+          : parsed && typeof parsed === "object" && "error" in parsed
+            ? String((parsed as { error?: string }).error)
+            : text.slice(0, 200);
       log("error", "revolut.api.error", {
         path,
         status: response.status,
+        detail,
       });
-      throw new Error(`Revolut API ${path} failed with status ${response.status}`);
+      throw new Error(
+        `Revolut API ${path} failed (${response.status}): ${detail || "unknown error"}`,
+      );
     }
     return parsed as RevolutApiOrder;
   }

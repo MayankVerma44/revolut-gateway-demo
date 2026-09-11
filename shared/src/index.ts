@@ -59,6 +59,10 @@ export interface PublicConfig {
   revolutMode: "sandbox" | "prod";
   revolutPublicKey: string | null;
   appBaseUrl: string;
+  /** True when DEMO_MODE is off and both Revolut keys are configured on the server. */
+  sandboxReady: boolean;
+  /** Hosted checkout redirect_url cannot use localhost in live Revolut API mode. */
+  hostedCheckoutAvailable: boolean;
 }
 
 export interface CreateOrderRequest {

@@ -4,7 +4,7 @@ import express, {
   type Response,
 } from "express";
 import cors from "cors";
-import { config } from "./config.js";
+import { config, isHostedCheckoutAvailable, isSandboxReady } from "./config.js";
 import { log } from "./logger.js";
 import { HttpError, type OrderService } from "./orderService.js";
 import {
@@ -35,6 +35,8 @@ export function createApp(orderService: OrderService, webhookService: WebhookSer
       revolutMode: config.revolutMode,
       revolutPublicKey: config.demoMode ? null : config.revolutPublicKey || null,
       appBaseUrl: config.appBaseUrl,
+      sandboxReady: isSandboxReady(),
+      hostedCheckoutAvailable: isHostedCheckoutAvailable(),
     });
   });
 

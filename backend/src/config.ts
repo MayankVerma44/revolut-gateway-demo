@@ -32,11 +32,30 @@ export function revolutMerchantBaseUrl(): string {
     : "https://sandbox-merchant.revolut.com";
 }
 
+export function isSandboxReady(): boolean {
+  return !config.demoMode && Boolean(config.revolutPublicKey && config.revolutSecretKey);
+}
+
+export function isHostedCheckoutAvailable(): boolean {
+  if (config.demoMode) return true;
+  try {
+    const host = new URL(config.appBaseUrl).hostname;
+    return host !== "localhost" && host !== "127.0.0.1" && !/^\d+\.\d+\.\d+\.\d+$/.test(host);
+  } catch {
+    return false;
+  }
+}
+
 export function assertLiveModeReady(): void {
   if (config.demoMode) return;
   if (!config.revolutSecretKey) {
     throw new Error(
       "REAL SANDBOX mode requires REVOLUT_SECRET_KEY. Set DEMO_MODE=true to run without credentials.",
+    );
+  }
+  if (!config.revolutPublicKey) {
+    throw new Error(
+      "REAL SANDBOX mode requires REVOLUT_PUBLIC_KEY for the embedded Revolut Checkout widget.",
     );
   }
 }
