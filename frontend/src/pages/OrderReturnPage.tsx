@@ -48,9 +48,12 @@ export function OrderReturnPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-xl px-6 py-20 text-center">
-        <h1 className="font-display text-4xl">Checking payment</h1>
-        <p className="mt-4 text-ink-soft">{message}</p>
+      <div className="page-container py-20 text-center max-w-xl mx-auto">
+        <div className="glass rounded-2xl p-10">
+          <div className="mx-auto mb-6 h-10 w-10 rounded-full border-2 border-teal/30 border-t-teal animate-spin" />
+          <h1 className="page-title text-2xl">Checking payment</h1>
+          <p className="mt-4 text-ink-soft">{message}</p>
+        </div>
       </div>
     </Layout>
   );

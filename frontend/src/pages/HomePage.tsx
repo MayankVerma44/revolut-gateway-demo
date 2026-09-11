@@ -6,37 +6,36 @@ import { Layout } from "../components/Layout";
 export function HomePage() {
   return (
     <Layout>
-      <section className="mx-auto max-w-6xl px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
+      <section className="page-container py-16 grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-teal">Merchant storefront</p>
-          <h1 className="font-display text-5xl mt-4 leading-tight">
+          <span className="badge">Merchant storefront</span>
+          <h1 className="page-title mt-5">
             A quiet flagship pair, built to demonstrate checkout architecture.
           </h1>
-          <p className="mt-5 text-ink-soft max-w-md">
+          <p className="mt-5 text-ink-soft max-w-md leading-relaxed">
             Northline Audio is a fictional store. Use it to compare Revolut Checkout
             (embedded) with Hosted Checkout (redirect) in a realistic basket flow.
           </p>
-          <Link
-            to="/product"
-            className="inline-flex mt-8 rounded-full bg-ink text-cream px-6 py-3"
-          >
+          <Link to="/product" className="btn-primary mt-8">
             View the product
           </Link>
         </div>
-        <HeadphonesArt className="w-full rounded-[40px] shadow-sm" />
+        <div className="glass rounded-3xl p-4 overflow-hidden">
+          <HeadphonesArt className="w-full rounded-2xl" />
+        </div>
       </section>
-      <section className="mx-auto max-w-6xl px-6 pb-8">
+      <section className="page-container pb-12">
         <Link
           to="/product"
-          className="flex flex-col md:flex-row gap-6 rounded-3xl border border-line bg-paper p-6 hover:border-teal"
+          className="glass flex flex-col md:flex-row gap-6 rounded-2xl p-6 hover:border-white/20 transition-colors"
         >
-          <div className="md:w-48">
-            <HeadphonesArt className="rounded-2xl" />
+          <div className="md:w-48 shrink-0">
+            <HeadphonesArt className="rounded-xl" />
           </div>
           <div className="flex-1">
-            <h2 className="font-display text-3xl">{PRODUCT.name}</h2>
-            <p className="mt-2 text-ink-soft">{PRODUCT.description}</p>
-            <p className="mt-4 text-xl">{formatGbp(PRODUCT.priceMinor)}</p>
+            <h2 className="font-display text-2xl font-semibold">{PRODUCT.name}</h2>
+            <p className="mt-2 text-ink-soft leading-relaxed">{PRODUCT.description}</p>
+            <p className="mt-4 text-2xl font-semibold text-teal">{formatGbp(PRODUCT.priceMinor)}</p>
           </div>
         </Link>
       </section>

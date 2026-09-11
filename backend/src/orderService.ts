@@ -5,7 +5,7 @@ import {
   type CreateOrderRequest,
   type PaymentStatus,
 } from "@demo/shared";
-import { config, isHostedCheckoutAvailable } from "./config.js";
+import { config, hostedCheckoutRedirectUrl } from "./config.js";
 import type { StoredOrder } from "./domain.js";
 import { log } from "./logger.js";
 import { mapRevolutState, toPublicOrder } from "./mappers.js";
@@ -100,13 +100,7 @@ export class OrderService {
     if (order.integration !== "hosted_checkout") {
       throw new HttpError(409, "Order was not created for Hosted Checkout");
     }
-    if (!config.demoMode && !isHostedCheckoutAvailable()) {
-      throw new HttpError(
-        400,
-        "Hosted Checkout in sandbox requires a public APP_BASE_URL (Revolut rejects localhost redirect_url). Use a tunnel such as ngrok and set APP_BASE_URL to the public HTTPS URL.",
-      );
-    }
-    const redirectUrl = `${config.appBaseUrl}/order/${order.id}/return`;
+    const redirectUrl = hostedCheckoutRedirectUrl(order.id);
     const revolutOrder = await this.revolut.createOrder({
       amountMinor: order.amountMinor,
       currency: order.currency,

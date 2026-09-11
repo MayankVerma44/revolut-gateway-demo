@@ -40,10 +40,11 @@ export function CheckoutPage() {
   if (cart.quantity === 0) {
     return (
       <Layout>
-        <div className="mx-auto max-w-3xl px-6 py-16">
-          <h1 className="font-display text-4xl">Checkout</h1>
-          <p className="mt-4">
-            Nothing to pay for yet. <Link to="/product" className="text-teal">Choose a product</Link>.
+        <div className="page-container py-16">
+          <h1 className="page-title">Checkout</h1>
+          <p className="mt-4 text-ink-soft">
+            Nothing to pay for yet.{" "}
+            <Link to="/product" className="text-teal hover:underline">Choose a product</Link>.
           </p>
         </div>
       </Layout>
@@ -99,21 +100,21 @@ export function CheckoutPage() {
   return (
     <Layout>
       {leaving && (
-        <div className="bg-teal text-cream text-center py-3 px-4 text-sm">
-          Leaving Northline Audio — you are being redirected to Revolut-hosted checkout.
+        <div className="glass-strong border-b border-teal/30 text-center py-3 px-4 text-sm text-teal">
+          Leaving the merchant site — redirecting to Revolut-hosted checkout…
         </div>
       )}
-      <form onSubmit={onSubmit} className="mx-auto max-w-6xl px-6 py-12 grid lg:grid-cols-[1fr_340px] gap-10">
-        <div className="space-y-10">
+      <form onSubmit={onSubmit} className="page-container py-12 grid lg:grid-cols-[1fr_340px] gap-10">
+        <div className="space-y-8">
           <div>
-            <h1 className="font-display text-4xl">Checkout</h1>
+            <h1 className="page-title">Checkout</h1>
             <p className="mt-2 text-ink-soft">
               Complete customer details, then choose how this merchant talks to Revolut.
             </p>
           </div>
 
-          <section>
-            <h2 className="font-display text-2xl">Customer information</h2>
+          <section className="glass rounded-2xl p-6">
+            <h2 className="section-title">Customer information</h2>
             <div className="mt-4 grid sm:grid-cols-2 gap-4">
               <Field
                 label="Full name"
@@ -157,28 +158,12 @@ export function CheckoutPage() {
           </section>
 
           {!config.demoMode && !config.sandboxReady && (
-            <div className="rounded-2xl border border-amber bg-amber/10 p-4 text-sm">
+            <div className="alert-warning">
               <p className="font-medium text-amber">Sandbox keys required</p>
               <p className="mt-2 text-ink-soft">
                 Set <code className="text-xs">DEMO_MODE=false</code> and add your Revolut sandbox
                 keys to <code className="text-xs">.env</code>, then restart{" "}
                 <code className="text-xs">npm run dev</code>.
-              </p>
-              <ul className="mt-2 list-disc pl-5 text-ink-soft space-y-1">
-                <li><code className="text-xs">REVOLUT_PUBLIC_KEY=pk_...</code></li>
-                <li><code className="text-xs">REVOLUT_SECRET_KEY=sk_...</code></li>
-              </ul>
-            </div>
-          )}
-
-          {!config.demoMode && config.sandboxReady && integration === "hosted_checkout" && !config.hostedCheckoutAvailable && (
-            <div className="rounded-2xl border border-amber bg-amber/10 p-4 text-sm">
-              <p className="font-medium text-amber">Hosted Checkout needs a public URL</p>
-              <p className="mt-2 text-ink-soft">
-                Revolut rejects <code className="text-xs">localhost</code> for{" "}
-                <code className="text-xs">redirect_url</code>. Use a tunnel (e.g. ngrok) and set{" "}
-                <code className="text-xs">APP_BASE_URL</code> to the public HTTPS URL. Embedded
-                Revolut Checkout works on localhost.
               </p>
             </div>
           )}
@@ -192,27 +177,40 @@ export function CheckoutPage() {
             }}
           />
 
-          <section className="rounded-3xl border border-line bg-paper p-6">
-            <h2 className="font-display text-2xl">Payment</h2>
+          <section className="glass rounded-2xl p-6">
+            <h2 className="section-title">Payment</h2>
             {integration === "revolut_checkout" ? (
               <p className="mt-2 text-sm text-ink-soft">
                 Revolut Checkout renders inside this merchant page after you continue.
               </p>
             ) : (
               <p className="mt-2 text-sm text-ink-soft">
-                Hosted Checkout will send the customer away from this website.
+                Hosted Checkout sends the customer to Revolut, then returns to your local success
+                page after payment.
               </p>
             )}
+
+            {integration === "hosted_checkout" &&
+              !config.demoMode &&
+              config.sandboxReady &&
+              config.localHostedRedirect && (
+                <p className="mt-3 text-xs text-ink-soft/80 leading-relaxed">
+                  Revolut cannot redirect to localhost in live sandbox. Payment completes on
+                  Revolut&apos;s page — use demo controls on the simulated page, or set{" "}
+                  <code className="text-teal">REVOLUT_HOSTED_REDIRECT_URL</code> to a public tunnel
+                  URL for automatic return.
+                </p>
+              )}
 
             <div ref={widgetRef} id="checkout-container" className="mt-4 min-h-16" />
 
             {config.demoMode && integration === "revolut_checkout" && localOrderId && (
               <div className="mt-4 space-y-4">
-                <div className="rounded-2xl border border-line p-4 bg-cream">
+                <div className="glass-strong rounded-xl p-4">
                   <div className="text-sm font-medium">Embedded widget (simulated)</div>
                   <p className="text-sm text-ink-soft mt-1">
-                    In sandbox mode this region is replaced by the official Revolut Checkout
-                    Web SDK.
+                    In sandbox mode this region is replaced by the official Revolut Checkout Web
+                    SDK.
                   </p>
                 </div>
                 <DemoControls orderId={localOrderId} onDone={(path) => navigate(path)} />
@@ -223,14 +221,8 @@ export function CheckoutPage() {
 
             <button
               type="submit"
-              disabled={
-                busy ||
-                (!config.demoMode && !config.sandboxReady) ||
-                (!config.demoMode &&
-                  integration === "hosted_checkout" &&
-                  !config.hostedCheckoutAvailable)
-              }
-              className="mt-6 rounded-full bg-teal text-cream px-6 py-3 disabled:opacity-60"
+              disabled={busy || (!config.demoMode && !config.sandboxReady)}
+              className="btn-primary mt-6"
             >
               {busy
                 ? "Working…"
@@ -265,7 +257,7 @@ function Field({
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1 w-full rounded-xl border border-line bg-paper px-3 py-2"
+        className="glass-input mt-1 w-full rounded-xl px-3 py-2"
       />
     </label>
   );

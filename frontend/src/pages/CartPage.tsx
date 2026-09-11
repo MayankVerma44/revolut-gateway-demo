@@ -10,34 +10,35 @@ export function CartPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-6xl px-6 py-12">
-        <h1 className="font-display text-4xl">Cart</h1>
+      <div className="page-container py-12">
+        <h1 className="page-title">Cart</h1>
         {cart.quantity === 0 ? (
           <p className="mt-6 text-ink-soft">
-            Your cart is empty. <Link to="/product" className="text-teal">Add the headphones</Link>.
+            Your cart is empty.{" "}
+            <Link to="/product" className="text-teal hover:underline">Add the headphones</Link>.
           </p>
         ) : (
           <div className="mt-8 grid md:grid-cols-[1fr_320px] gap-8">
-            <div className="rounded-3xl border border-line bg-paper p-6 flex gap-5">
-              <div className="w-36">
-                <HeadphonesArt className="rounded-2xl" />
+            <div className="glass rounded-2xl p-6 flex gap-5">
+              <div className="w-36 shrink-0">
+                <HeadphonesArt className="rounded-xl" />
               </div>
               <div className="flex-1">
-                <h2 className="font-display text-2xl">{PRODUCT.name}</h2>
+                <h2 className="font-display text-xl font-semibold">{PRODUCT.name}</h2>
                 <p className="text-ink-soft mt-1">{formatGbp(PRODUCT.priceMinor)}</p>
                 <div className="mt-4 flex items-center gap-3">
                   <select
-                    className="rounded-xl border border-line px-3 py-2"
+                    className="glass-input rounded-xl px-3 py-2 text-sm"
                     value={cart.quantity}
                     onChange={(event) => cart.setQuantity(Number(event.target.value))}
                   >
                     {[1, 2, 3, 4, 5].map((value) => (
-                      <option key={value} value={value}>
+                      <option key={value} value={value} className="bg-[#0f1524]">
                         {value}
                       </option>
                     ))}
                   </select>
-                  <button className="text-sm text-rose" onClick={cart.clear}>
+                  <button className="text-sm text-rose hover:underline" onClick={cart.clear}>
                     Remove
                   </button>
                 </div>
@@ -45,10 +46,7 @@ export function CartPage() {
             </div>
             <div>
               <OrderSummary quantity={cart.quantity} />
-              <Link
-                to="/checkout"
-                className="mt-4 flex justify-center rounded-full bg-ink text-cream px-6 py-3"
-              >
+              <Link to="/checkout" className="btn-primary w-full mt-4">
                 Continue to checkout
               </Link>
             </div>

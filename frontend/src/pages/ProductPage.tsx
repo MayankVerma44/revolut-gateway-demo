@@ -12,30 +12,32 @@ export function ProductPage() {
 
   return (
     <Layout>
-      <div className="mx-auto max-w-6xl px-6 py-12 grid md:grid-cols-2 gap-10">
-        <HeadphonesArt className="w-full rounded-[36px]" />
-        <div>
-          <p className="text-sm uppercase tracking-[0.2em] text-teal">Limited demonstration SKU</p>
-          <h1 className="font-display text-4xl mt-3">{PRODUCT.name}</h1>
-          <p className="mt-4 text-ink-soft">{PRODUCT.description}</p>
-          <p className="mt-6 text-3xl">{formatGbp(PRODUCT.priceMinor)}</p>
+      <div className="page-container py-12 grid md:grid-cols-2 gap-10">
+        <div className="glass rounded-3xl p-4">
+          <HeadphonesArt className="w-full rounded-2xl" />
+        </div>
+        <div className="glass rounded-2xl p-8">
+          <span className="badge">Limited demonstration SKU</span>
+          <h1 className="page-title mt-4 text-3xl">{PRODUCT.name}</h1>
+          <p className="mt-4 text-ink-soft leading-relaxed">{PRODUCT.description}</p>
+          <p className="mt-6 text-3xl font-semibold text-teal">{formatGbp(PRODUCT.priceMinor)}</p>
           <div className="mt-8 flex items-center gap-4">
             <label className="text-sm text-ink-soft">Quantity</label>
             <select
-              className="rounded-xl border border-line bg-paper px-3 py-2"
+              className="glass-input rounded-xl px-3 py-2 text-sm"
               value={quantity}
               onChange={(event) => setQuantity(Number(event.target.value))}
             >
               {[1, 2, 3, 4, 5].map((value) => (
-                <option key={value} value={value}>
+                <option key={value} value={value} className="bg-[#0f1524]">
                   {value}
                 </option>
               ))}
             </select>
           </div>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <button
-              className="rounded-full bg-ink text-cream px-6 py-3"
+              className="btn-primary"
               onClick={() => {
                 cart.setQuantity(quantity);
                 navigate("/cart");
@@ -44,7 +46,7 @@ export function ProductPage() {
               Add to cart
             </button>
             <button
-              className="rounded-full border border-line px-6 py-3"
+              className="btn-secondary"
               onClick={() => {
                 cart.setQuantity(quantity);
                 navigate("/checkout");

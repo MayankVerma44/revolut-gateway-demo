@@ -7,36 +7,46 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const config = useConfig();
 
   return (
-    <div className="min-h-screen">
-      <div className="bg-ink text-cream text-center text-sm tracking-wide py-2 px-4">
-        Demonstration environment
+    <div className="min-h-screen flex flex-col">
+      <div className="glass-strong border-b border-white/10 text-center text-xs tracking-wide py-2.5 px-4 text-ink-soft">
+        <span className="badge mr-2">Demo</span>
         {config.demoMode
-          ? " — DEMO mode (Revolut responses are simulated)"
-          : ` — REAL ${config.revolutMode.toUpperCase()} mode`}
+          ? "DEMO mode — Revolut responses are simulated"
+          : `REAL ${config.revolutMode.toUpperCase()} mode — live Revolut sandbox`}
       </div>
-      <header className="border-b border-line bg-paper/80 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-6">
-          <Link to="/" className="font-display text-2xl">
-            Northline Audio
+      <header className="sticky top-0 z-50 glass border-b border-white/10">
+        <div className="page-container py-4 flex items-center justify-between gap-6">
+          <Link to="/" className="font-display text-xl font-semibold tracking-tight">
+            Revolut Demo
           </Link>
-          <nav className="flex items-center gap-6 text-sm">
-            <NavLink to="/" className="hover:text-teal">
+          <nav className="flex items-center gap-1">
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) => `nav-link ${isActive ? "nav-link-active" : ""}`}
+            >
               Store
             </NavLink>
-            <NavLink to="/product" className="hover:text-teal">
+            <NavLink
+              to="/product"
+              className={({ isActive }) => `nav-link ${isActive ? "nav-link-active" : ""}`}
+            >
               Product
             </NavLink>
-            <NavLink to="/cart" className="hover:text-teal">
-              Cart {cart.quantity > 0 ? `(${cart.quantity})` : ""}
+            <NavLink
+              to="/cart"
+              className={({ isActive }) => `nav-link ${isActive ? "nav-link-active" : ""}`}
+            >
+              Cart{cart.quantity > 0 ? ` (${cart.quantity})` : ""}
             </NavLink>
           </nav>
         </div>
       </header>
-      <main>{children}</main>
-      <footer className="mt-16 border-t border-line">
-        <div className="mx-auto max-w-6xl px-6 py-10 text-sm text-ink-soft flex flex-col gap-2 md:flex-row md:justify-between">
-          <p>Northline Audio is a fictional merchant for Revolut integration discussions.</p>
-          <p>Payments never leave this architecture into production unless you configure sandbox keys.</p>
+      <main className="flex-1">{children}</main>
+      <footer className="mt-16 border-t border-white/10">
+        <div className="page-container py-10 text-sm text-ink-soft flex flex-col gap-2 md:flex-row md:justify-between">
+          <p>Internal demonstration tool for Revolut checkout integrations.</p>
+          <p className="text-ink-soft/60">Interactive demos powered by the Revolut Merchant API.</p>
         </div>
       </footer>
     </div>
