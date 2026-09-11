@@ -3,7 +3,7 @@ import { CartPage } from "./pages/CartPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
 import { DemoHostedCheckoutPage } from "./pages/DemoHostedCheckoutPage";
 import { FailurePage } from "./pages/FailurePage";
-import { HomePage } from "./pages/HomePage";
+import { DashboardPage } from "./pages/DashboardPage";
 import { OrderReturnPage } from "./pages/OrderReturnPage";
 import { ProductPage } from "./pages/ProductPage";
 import { SuccessPage } from "./pages/SuccessPage";
@@ -11,7 +11,7 @@ import { SuccessPage } from "./pages/SuccessPage";
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<DashboardPage />} />
       <Route path="/product" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
