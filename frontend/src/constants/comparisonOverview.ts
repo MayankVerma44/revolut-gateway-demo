@@ -1,21 +1,71 @@
+export const COMPARISON_COLUMNS = [
+  {
+    id: "embedded",
+    name: "Embedded Checkout",
+    description: "All-in-one responsive form mounted directly in your code",
+  },
+  {
+    id: "hosted",
+    name: "Hosted payment page/redirect Checkout",
+    description: "Full-page redirect hosted securely on Revolut rails",
+  },
+  {
+    id: "individual-sdks",
+    name: "Individual SDKs",
+    description: "Mount standalone express buttons freely on your site",
+  },
+] as const;
+
 export const TECHNICAL_COMPARISON = [
-  { feature: "Customer stays on merchant site", revolutCheckout: "Yes", hostedCheckout: "No" },
-  { feature: "Embedded checkout", revolutCheckout: "Yes", hostedCheckout: "No" },
-  { feature: "Hosted by Revolut", revolutCheckout: "No", hostedCheckout: "Yes" },
-  { feature: "Cards & alternative methods", revolutCheckout: "Yes", hostedCheckout: "Yes" },
   {
-    feature: "Appearance customisation",
-    revolutCheckout: "Full (5/5)",
-    hostedCheckout: "Limited (3/5)",
+    label: "Integration and setup",
+    rows: [
+      { feature: "Development Effort", values: ["Flexible code", "Low code", "Pro code"] },
+      { feature: "Setup Timeline", values: ["Day+", "Hours", "Week+"] },
+      {
+        feature: "Technical Stack",
+        values: ["Single unified SDK", "Simple redirect script", "Modular frontend SDKs"],
+      },
+      {
+        feature: "PCI Compliance Load",
+        values: ["Handled by Revolut", "Handled by Revolut", "Handled by Revolut"],
+      },
+    ],
   },
   {
-    feature: "Dashboard configuration",
-    revolutCheckout: "Yes",
-    hostedCheckout: "Branding only",
+    label: "Checkout experience",
+    rows: [
+      {
+        feature: "Domain Retention",
+        values: [
+          "Stays on your website",
+          "Redirects to checkout.revolut.com",
+          "Stays on your website",
+        ],
+      },
+      {
+        feature: "Design Flexibility",
+        values: ["Fully custom styling", "Presets via Revolut Business", "Limited"],
+      },
+    ],
   },
-  { feature: "Integration effort", revolutCheckout: "Medium", hostedCheckout: "Low" },
-  { feature: "Best for Revolut-only acquiring", revolutCheckout: "Yes", hostedCheckout: "Yes" },
-  { feature: "Best for multi-acquirer setups", revolutCheckout: "No", hostedCheckout: "Yes" },
+  {
+    label: "Feature comparison",
+    rows: [
+      { feature: "Customer stays on merchant site", values: ["Yes", "No", "Yes"] },
+      { feature: "Embedded Checkout", values: ["Yes", "No", "Individual placements"] },
+      { feature: "Hosted by Revolut", values: ["No", "Yes", "No"] },
+      { feature: "Cards & alternative methods", values: ["Yes", "Yes", "Yes"] },
+      {
+        feature: "Appearance customisation",
+        values: ["Full (5/5)", "Limited (3/5)", "Limited/Merchant Controlled"],
+      },
+      { feature: "Dashboard configuration", values: ["Yes", "Branding only", "No"] },
+      { feature: "Integration effort", values: ["Medium", "Low", "High"] },
+      { feature: "Best for Revolut-only acquiring", values: ["Yes", "N/A", "Yes"] },
+      { feature: "Best for multi-acquirer setups", values: ["No", "Yes", "Yes"] },
+    ],
+  },
 ] as const;
 
 export const REVOLUT_CHECKOUT_OVERVIEW = {
@@ -52,7 +102,7 @@ export const HOSTED_CHECKOUT_OVERVIEW = {
   merchantExperience: [
     "Cart",
     "Redirect",
-    "Revolut Hosted Checkout",
+    "Hosted payment page/redirect Checkout",
     "Return to Merchant",
   ],
   whyChoose: [
@@ -66,13 +116,13 @@ export const HOSTED_CHECKOUT_OVERVIEW = {
     "Needs payment links",
     "Wants the fastest and low-effort implementation",
     "Doesn't want to build or maintain payment UI",
-    "Needs a secure hosted checkout for payments",
+    "Needs a secure Hosted payment page/redirect Checkout for payments",
   ],
 };
 
 export const KEY_TAKEAWAYS = {
   revolutCheckout:
-    "Choose Revolut Checkout when you want a fully embedded, highly customisable payment experience that keeps customers on your website and maximises conversion.",
+    "Choose Embedded Checkout when you want a fully embedded, highly customisable payment experience that keeps customers on your website and maximises conversion.",
   hostedCheckout:
-    "Choose Hosted Checkout (Payment Links API) when you need a fast, low-maintenance integration for payment links, invoicing, or remote payments, while leveraging Revolut's secure hosted payment experience.",
+    "Choose Hosted payment page/redirect Checkout (Payment Links API) when you need a fast, low-maintenance integration for payment links, invoicing, or remote payments, while leveraging Revolut's secure hosted payment experience.",
 };

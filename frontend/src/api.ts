@@ -46,6 +46,10 @@ export const api = {
     request<{ order: PublicOrder; verifiedServerSide: true }>(
       apiUrl(`/api/orders/${id}/status`),
     ),
+  getStatusByRevolutOrderId: (revolutOrderId: string) =>
+    request<{ order: PublicOrder; verifiedServerSide: true }>(
+      apiUrl(`/api/orders/by-revolut/${encodeURIComponent(revolutOrderId)}/status`),
+    ),
   createEmbedded: (localOrderId: string) =>
     request<EmbeddedCreateOrderResponse>(apiUrl("/api/revolut/embedded/create-order"), {
       method: "POST",

@@ -53,7 +53,7 @@ export function Layout({
               <div className="demo-chip hidden sm:flex">
                 <span className="text-ink-soft">{session.solutionName}</span>
                 <span className="text-ink-soft/50">·</span>
-                <span className="text-teal">{session.solutionLabel}</span>
+                <span className="text-teal">Demo</span>
               </div>
             )}
           </div>
@@ -81,7 +81,7 @@ export function Layout({
         {layoutMode === "store" && session.isActive && (
           <div className="demo-chip-mobile sm:hidden page-container pb-3">
             <span className="text-ink-soft">{session.solutionName}</span>
-            <span className="text-teal">{session.solutionLabel}</span>
+            <span className="text-teal">Demo</span>
           </div>
         )}
       </header>
@@ -90,7 +90,7 @@ export function Layout({
         <div className="env-banner">
           <span className="status-dot" />
           {config.sandboxReady
-            ? `Demonstration store — ${config.revolutMode.toUpperCase()} sandbox`
+            ? `Demonstration store — ${config.revolutMode.toUpperCase()}`
             : "Demonstration store — configure Revolut sandbox keys"}
         </div>
       )}
@@ -100,7 +100,7 @@ export function Layout({
       {layoutMode === "dashboard" && (
         <footer className="app-footer">
           <div className="page-container py-10 text-sm text-ink-soft flex flex-col gap-2 md:flex-row md:justify-between">
-            <p>Internal demonstration tool for Revolut checkout integrations.</p>
+            <p>Internal demonstration tool for Embedded Checkout and Hosted payment page/redirect Checkout.</p>
             <p className="text-ink-soft/60">Interactive demos powered by the Revolut Merchant API.</p>
           </div>
         </footer>

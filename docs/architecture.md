@@ -17,7 +17,7 @@ Both `REVOLUT_PUBLIC_KEY` and `REVOLUT_SECRET_KEY` must be configured for checko
 
 | Implementation | Behaviour |
 | --- | --- |
-| `RevolutCheckoutIntegration` | Mounts Revolut Checkout Web SDK. `createOrder` calls `POST /api/revolut/embedded/create-order` and returns the order token as `publicId`. |
+| `RevolutCheckoutIntegration` | Mounts the Embedded Checkout Web SDK. `createOrder` calls `POST /api/revolut/embedded/create-order` and returns the order token as `publicId`. |
 | `HostedCheckoutIntegration` | Calls `POST /api/revolut/hosted/create-order` and assigns `window.location` to `checkoutUrl`. |
 
 The React tree does not create Revolut orders itself.
@@ -35,7 +35,7 @@ HTTP routes
 
 ## Payment flows
 
-### Revolut Checkout
+### Embedded Checkout
 
 1. Merchant checkout creates a local order (`POST /api/orders`).
 2. SDK asks the backend for a token.
@@ -44,7 +44,7 @@ HTTP routes
 5. `onSuccess` / `onError` / `onCancel` send the shopper to merchant result routes.
 6. Result pages call `GET /api/orders/:id/status`.
 
-### Hosted Checkout
+### Hosted payment page/redirect Checkout
 
 1. Local order is created with `hosted_checkout`.
 2. Backend creates a Revolut order with `redirect_url` = `{REVOLUT_HOSTED_REDIRECT_URL or APP_BASE_URL}/order/{id}/success`.

@@ -25,20 +25,80 @@ export function CheckoutPage() {
   const config = useConfig();
   const session = useCheckoutSession();
   const [customer, setCustomer] = useState(emptyCustomer);
-  const [integration, setIntegration] = useState<IntegrationType>("revolut_checkout");
+  const [integration, setIntegration] = useState<IntegrationType>(
+    () => session.integration ?? "revolut_checkout",
+  );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [leaving, setLeaving] = useState(false);
   const widgetRef = useRef<HTMLDivElement>(null);
   const integrationRef = useRef<ReturnType<typeof createPaymentIntegration> | null>(null);
-
-  useEffect(() => {
-    return () => integrationRef.current?.destroy();
-  }, []);
+  const customerRef = useRef(customer);
+  const quantityRef = useRef(cart.quantity);
+  const localOrderTask = useRef<Promise<string> | null>(null);
+  const onPaymentErrorRef = useRef<(message: string) => void>(() => {});
+  const onPaymentCancelRef = useRef<() => void>(() => {});
+  customerRef.current = customer;
+  quantityRef.current = cart.quantity;
+  onPaymentErrorRef.current = (message) => {
+    setNotice(null);
+    setError(message);
+  };
+  onPaymentCancelRef.current = () => {
+    setError(null);
+    setNotice("Payment was cancelled.");
+  };
 
   useEffect(() => {
     if (session.integration) setIntegration(session.integration);
   }, [session.integration]);
+
+  useEffect(() => {
+    if (integration !== "revolut_checkout" || !config.sandboxReady) return;
+    const target = widgetRef.current;
+    if (!target) return;
+
+    let cancelled = false;
+    integrationRef.current?.destroy();
+    target.replaceChildren();
+    const embedded = createPaymentIntegration("revolut_checkout", config);
+    integrationRef.current = embedded;
+
+    embedded
+      .start({
+        email: customerRef.current.email,
+        target,
+        ensureLocalOrder: () => {
+          if (!localOrderTask.current) {
+            localOrderTask.current = api
+              .createOrder({
+                quantity: quantityRef.current,
+                customer: customerRef.current,
+                integration: "revolut_checkout",
+              })
+              .then((result) => result.order.id)
+              .catch((err: unknown) => {
+                localOrderTask.current = null;
+                throw err;
+              });
+          }
+          return localOrderTask.current;
+        },
+        onPaymentError: (message) => onPaymentErrorRef.current(message),
+        onPaymentCancel: () => onPaymentCancelRef.current(),
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setError(err instanceof Error ? err.message : "Embedded Checkout failed to load");
+      });
+
+    return () => {
+      cancelled = true;
+      embedded.destroy();
+      if (integrationRef.current === embedded) integrationRef.current = null;
+    };
+  }, [integration, config]);
 
   if (cart.quantity === 0) {
     return (
@@ -56,6 +116,8 @@ export function CheckoutPage() {
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
+    if (integration !== "hosted_checkout") return;
+
     setError(null);
     setBusy(true);
     try {
@@ -67,23 +129,10 @@ export function CheckoutPage() {
         })
       ).order.id;
 
-      if (integration === "hosted_checkout") {
-        setLeaving(true);
-        const hosted = createPaymentIntegration("hosted_checkout", config);
-        integrationRef.current = hosted;
-        await hosted.start({ localOrderId: orderId, email: customer.email });
-        return;
-      }
-
-      integrationRef.current?.destroy();
-      const embedded = createPaymentIntegration("revolut_checkout", config);
-      integrationRef.current = embedded;
-      if (!widgetRef.current) throw new Error("Checkout widget target missing");
-      await embedded.start({
-        localOrderId: orderId,
-        email: customer.email,
-        target: widgetRef.current,
-      });
+      setLeaving(true);
+      const hosted = createPaymentIntegration("hosted_checkout", config);
+      integrationRef.current = hosted;
+      await hosted.start({ localOrderId: orderId, email: customer.email });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Checkout failed");
       setLeaving(false);
@@ -179,37 +228,26 @@ export function CheckoutPage() {
             <h2 className="section-title">Payment</h2>
             {integration === "revolut_checkout" ? (
               <p className="mt-2 text-sm text-ink-soft">
-                Revolut Checkout renders inside this merchant page after you continue.
+                Embedded Checkout loads on this page. It starts when the page is ready, including
+                after a refresh or a return from Revolut.
               </p>
             ) : (
               <p className="mt-2 text-sm text-ink-soft">
-                Hosted Checkout sends the customer to Revolut, then returns to your success page
+                Hosted payment page/redirect Checkout sends the customer to Revolut, then returns to your success page
                 after payment.
               </p>
             )}
 
-            {integration === "hosted_checkout" &&
-              config.sandboxReady &&
-              config.localHostedRedirect && (
-                <p className="mt-3 text-xs text-ink-soft/80 leading-relaxed">
-                  Revolut cannot redirect to localhost in sandbox. Payment completes on
-                  Revolut&apos;s page — set{" "}
-                  <code className="text-teal">REVOLUT_HOSTED_REDIRECT_URL</code> to a public URL
-                  for automatic return after payment.
-                </p>
-              )}
-
             <div ref={widgetRef} id="checkout-container" className="mt-4 min-h-16" />
 
             {error && <p className="mt-4 text-rose text-sm">{error}</p>}
+            {notice && <p className="mt-4 text-amber text-sm">{notice}</p>}
 
-            <button type="submit" disabled={busy || !config.sandboxReady} className="btn-primary mt-6">
-              {busy
-                ? "Working…"
-                : integration === "hosted_checkout"
-                  ? "Continue to payment"
-                  : "Continue with embedded checkout"}
-            </button>
+            {integration === "hosted_checkout" && (
+              <button type="submit" disabled={busy || !config.sandboxReady} className="btn-primary mt-6">
+                {busy ? "Working…" : "Continue to payment"}
+              </button>
+            )}
           </section>
         </div>
         <OrderSummary quantity={cart.quantity} />

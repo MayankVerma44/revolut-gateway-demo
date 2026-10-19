@@ -10,7 +10,7 @@ export function SolutionOverviewPanel({ data }: { data: OverviewData }) {
   return (
     <article className="glass rounded-3xl p-6 md:p-8 h-full">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <h3 className="font-display text-xl font-semibold tracking-tight">{data.title}</h3>
+        <h3 className="font-display text-xl font-semibold tracking-tight text-balance">{data.title}</h3>
         {data.subtitle && (
           <span className="text-xs text-ink-soft uppercase tracking-wider">{data.subtitle}</span>
         )}
@@ -33,13 +33,13 @@ export function SolutionOverviewPanel({ data }: { data: OverviewData }) {
 
         <div>
           <h4 className="text-xs font-medium uppercase tracking-wider text-teal mb-3">
-            Merchant experience
+            Customer Experience
           </h4>
           <ol className="flex flex-wrap items-center gap-2">
             {data.merchantExperience.map((step, index) => (
-              <li key={step} className="flex items-center gap-2 text-sm">
+              <li key={step} className="flex min-w-0 max-w-full items-center gap-2 text-sm">
                 <span className="flow-step">{index + 1}</span>
-                <span className="text-ink-soft">{step}</span>
+                <span className="text-ink-soft text-balance">{step}</span>
                 {index < data.merchantExperience.length - 1 && (
                   <span className="text-ink-soft/40 hidden sm:inline" aria-hidden="true">→</span>
                 )}

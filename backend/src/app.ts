@@ -45,6 +45,15 @@ export function createApp(orderService: OrderService, webhookService: WebhookSer
     }
   });
 
+  app.get("/api/orders/by-revolut/:revolutOrderId/status", async (req, res, next) => {
+    try {
+      const order = await orderService.refreshByRevolutOrderId(req.params.revolutOrderId);
+      res.json({ order, verifiedServerSide: true });
+    } catch (error) {
+      next(error);
+    }
+  });
+
   app.get("/api/orders/:id", async (req, res, next) => {
     try {
       const order = await orderService.getPublic(req.params.id);

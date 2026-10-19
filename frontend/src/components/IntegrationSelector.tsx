@@ -54,7 +54,7 @@ export function LockedIntegrationBadge({ integration }: { integration: Integrati
       <div className="demo-locked-badge mt-4">
         <span className="font-medium text-ink">{solution.name}</span>
         <span className="text-ink-soft/50">·</span>
-        <span className="text-teal">{solution.demoLabel}</span>
+        <span className="text-teal">Demo</span>
       </div>
       <p className="mt-3 text-sm text-ink-soft leading-relaxed">{solution.description}</p>
     </section>

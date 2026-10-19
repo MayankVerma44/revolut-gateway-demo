@@ -81,7 +81,7 @@ export class OrderService {
     this.requireRevolutKeys();
     const order = await this.require(localOrderId);
     if (order.integration !== "revolut_checkout") {
-      throw new HttpError(409, "Order was not created for Revolut Checkout");
+      throw new HttpError(409, "Order was not created for Embedded Checkout");
     }
     const revolutOrder = await this.revolut.createOrder({
       amountMinor: order.amountMinor,
@@ -111,7 +111,7 @@ export class OrderService {
     this.requireRevolutKeys();
     const order = await this.require(localOrderId);
     if (order.integration !== "hosted_checkout") {
-      throw new HttpError(409, "Order was not created for Hosted Checkout");
+      throw new HttpError(409, "Order was not created for Hosted payment page/redirect Checkout");
     }
     const redirectUrl = hostedCheckoutRedirectUrl(order.id);
     const revolutOrder = await this.revolut.createOrder({
@@ -171,6 +171,16 @@ export class OrderService {
       });
     }
     return toPublicOrder(order);
+  }
+
+  async refreshByRevolutOrderId(revolutOrderId: string) {
+    const order = await this.orders.getByRevolutOrderId(revolutOrderId);
+    if (!order) throw new HttpError(404, "Order not found");
+    log("info", "confirmation.verify", {
+      revolutOrderId,
+      orderId: order.id,
+    });
+    return this.refreshFromRevolut(order.id);
   }
 
   async applyStatus(

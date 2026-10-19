@@ -58,7 +58,7 @@ Response: `{ "orderId", "token" }`.
 
 ## `POST /api/revolut/hosted/create-order`
 
-Secret-key Revolut order for hosted checkout.
+Secret-key Revolut order for Hosted payment page/redirect Checkout.
 
 Response: `{ "orderId", "token", "checkoutUrl" }`.
 

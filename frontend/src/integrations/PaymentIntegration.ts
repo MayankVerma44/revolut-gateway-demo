@@ -1,9 +1,13 @@
 import type { IntegrationType } from "@demo/shared";
 
 export interface PaymentContext {
-  localOrderId: string;
+  localOrderId?: string;
   email: string;
   target?: HTMLElement;
+  /** Creates the merchant order once, when Embedded Checkout asks for a token. */
+  ensureLocalOrder?: () => Promise<string>;
+  onPaymentError?: (message: string) => void;
+  onPaymentCancel?: () => void;
 }
 
 export interface PaymentIntegration {

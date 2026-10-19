@@ -60,7 +60,7 @@ export interface PublicConfig {
   appBaseUrl: string;
   /** True when both Revolut keys are configured on the server. */
   sandboxReady: boolean;
-  /** True when hosted checkout redirect uses localhost (Revolut omits redirect_url). */
+  /** True when Hosted payment page/redirect Checkout uses a localhost redirect (Revolut omits redirect_url). */
   localHostedRedirect: boolean;
 }
 

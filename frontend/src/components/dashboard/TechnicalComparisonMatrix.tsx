@@ -1,37 +1,56 @@
-import { TECHNICAL_COMPARISON } from "../../constants/comparisonOverview";
+import { COMPARISON_COLUMNS, TECHNICAL_COMPARISON } from "../../constants/comparisonOverview";
 
 export function TechnicalComparisonMatrix() {
   return (
     <div className="glass rounded-3xl overflow-hidden">
-      <div className="px-6 pt-6 pb-2 border-b border-white/6">
-        <h3 className="font-display text-lg font-semibold">Technical comparison</h3>
-        <p className="text-sm text-ink-soft mt-1">Side-by-side feature matrix</p>
-      </div>
       <div className="overflow-x-auto">
-        <table className="comparison-table w-full min-w-[640px] text-sm">
+        <table className="comparison-table w-full min-w-[760px] text-sm">
           <thead>
             <tr>
-              <th className="text-left font-medium text-ink-soft w-[40%]">Feature</th>
-              <th className="text-left font-display font-semibold">Revolut Checkout</th>
-              <th className="text-left font-display font-semibold">Hosted Checkout</th>
+              <th className="text-left font-medium text-ink-soft w-[22%]">Feature</th>
+              {COMPARISON_COLUMNS.map((column) => (
+                <th key={column.id} className="text-left align-bottom">
+                  <span className="block font-display font-semibold text-ink">{column.name}</span>
+                  <span className="mt-1 block text-xs font-normal leading-snug text-ink-soft">
+                    {column.description}
+                  </span>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {TECHNICAL_COMPARISON.map((row) => (
-              <tr key={row.feature}>
-                <td className="text-ink-soft">{row.feature}</td>
-                <td>
-                  <CellValue value={row.revolutCheckout} />
-                </td>
-                <td>
-                  <CellValue value={row.hostedCheckout} />
-                </td>
-              </tr>
+            {TECHNICAL_COMPARISON.map((group) => (
+              <GroupRows key={group.label} group={group} />
             ))}
           </tbody>
         </table>
       </div>
     </div>
+  );
+}
+
+function GroupRows({ group }: { group: (typeof TECHNICAL_COMPARISON)[number] }) {
+  return (
+    <>
+      <tr>
+        <td
+          colSpan={COMPARISON_COLUMNS.length + 1}
+          className="bg-white/4 font-display text-xs font-semibold tracking-wide text-ink"
+        >
+          {group.label}
+        </td>
+      </tr>
+      {group.rows.map((row) => (
+        <tr key={row.feature}>
+          <td className="text-ink-soft">{row.feature}</td>
+          {row.values.map((value, index) => (
+            <td key={COMPARISON_COLUMNS[index].id}>
+              <CellValue value={value} />
+            </td>
+          ))}
+        </tr>
+      ))}
+    </>
   );
 }
 
@@ -41,6 +60,13 @@ function CellValue({ value }: { value: string }) {
   }
   if (value === "No") {
     return <span className="matrix-no">No</span>;
+  }
+  if (value === "Needs validation") {
+    return (
+      <span className="inline-flex rounded-full border border-amber/30 bg-amber/10 px-2 py-0.5 text-xs font-medium text-amber">
+        Needs validation
+      </span>
+    );
   }
   return <span>{value}</span>;
 }

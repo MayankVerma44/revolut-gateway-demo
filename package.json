@@ -2,7 +2,7 @@
   "name": "revolut-gateway-demo",
   "private": true,
   "version": "1.0.1",
-  "description": "Merchant demo comparing Revolut Checkout (embedded) and Hosted Checkout integrations.",
+  "description": "Merchant demo comparing Embedded Checkout and Hosted payment page/redirect Checkout integrations.",
   "workspaces": [
     "shared",
     "backend",

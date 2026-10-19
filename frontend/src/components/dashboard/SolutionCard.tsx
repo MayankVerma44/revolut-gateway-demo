@@ -6,15 +6,17 @@ export function SolutionCard({ solution }: { solution: SolutionMeta }) {
   const session = useCheckoutSession();
 
   return (
-    <article className="solution-card group">
-      <div className="flex items-start justify-between gap-4">
-        <div className="icon-well text-teal">
+    <article className="solution-card group h-full">
+      <div className="flex items-center justify-between gap-4">
+        <div className="icon-well shrink-0 text-teal">
           <SolutionIcon integration={solution.id} />
         </div>
-        <span className="badge">{solution.demoLabel}</span>
+        <span className="badge ml-auto min-w-0 max-w-[16rem] justify-center px-3 py-1.5 text-center leading-snug whitespace-normal text-balance">
+          {solution.demoLabel}
+        </span>
       </div>
 
-      <h3 className="mt-6 font-display text-2xl font-semibold tracking-tight">
+      <h3 className="mt-6 font-display text-2xl font-semibold tracking-tight text-balance">
         {solution.name}
       </h3>
       <p className="mt-3 text-ink-soft text-sm leading-relaxed">{solution.description}</p>

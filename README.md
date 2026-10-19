@@ -2,8 +2,8 @@
 
 A polished dummy ecommerce store for **Northline Audio**. Merchants can walk a realistic checkout and compare two Revolut online payment integrations:
 
-1. **Revolut Checkout** — embedded widget on the merchant page (Web SDK)
-2. **Hosted Checkout** — server-created order, browser redirect to Revolut `checkout_url`
+1. **Embedded Checkout** — embedded widget on the merchant page (Web SDK)
+2. **Hosted payment page/redirect Checkout** — server-created order, browser redirect to Revolut `checkout_url`
 
 The app uses the Revolut Merchant API and official SDK. Secret keys never leave the backend.
 
@@ -45,11 +45,11 @@ REVOLUT_WEBHOOK_SECRET=wsk_...   # optional but recommended
 
 The frontend only receives the **public** key via `GET /api/config`. Order creation uses the secret key on the server.
 
-Embedded checkout uses `@revolut/checkout` `embeddedCheckout()` with `createOrder` returning `{ publicId: token }`, matching current Revolut Checkout Web docs.
+Embedded Checkout uses `@revolut/checkout` `embeddedCheckout()` with `createOrder` returning `{ publicId: token }`, matching current Embedded Checkout Web docs.
 
-Hosted checkout creates an order with `redirect_url` set to `/order/:id/success`. The confirmation page always calls `GET /api/orders/:id/status` and retrieves the Revolut order before showing success.
+Hosted payment page/redirect Checkout creates an order with `redirect_url` set to `/order/:id/success`. The confirmation page always calls `GET /api/orders/:id/status` and retrieves the Revolut order before showing success.
 
-For local hosted checkout, set `REVOLUT_HOSTED_REDIRECT_URL` to a public tunnel URL — Revolut sandbox rejects localhost redirect URLs.
+For local Hosted payment page/redirect Checkout, set `REVOLUT_HOSTED_REDIRECT_URL` to a public tunnel URL — Revolut sandbox rejects localhost redirect URLs.
 
 ## Scripts
 

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@demo/shared": "1.0.0",
+    "@designcodeio/threeui": "1.2.0",
     "@revolut/checkout": "^1.1.23",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

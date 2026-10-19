@@ -68,7 +68,7 @@ export function assertLiveModeReady(): void {
   }
   if (!config.revolutPublicKey) {
     throw new Error(
-      "REVOLUT_PUBLIC_KEY is required for the embedded Revolut Checkout widget.",
+      "REVOLUT_PUBLIC_KEY is required for the Embedded Checkout widget.",
     );
   }
 }

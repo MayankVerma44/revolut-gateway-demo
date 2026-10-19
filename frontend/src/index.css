@@ -356,6 +356,9 @@ body {
 .comparison-table thead th {
   padding-top: 1.5rem;
   font-size: 0.8125rem;
+  line-height: 1.35;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 .comparison-table tbody tr:last-child td {
@@ -417,7 +420,9 @@ body {
 .demo-locked-badge {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
+  max-width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 1rem;
   font-size: 0.875rem;

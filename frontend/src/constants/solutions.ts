@@ -20,14 +20,14 @@ export interface SolutionMeta {
 export const SOLUTIONS: SolutionMeta[] = [
   {
     id: "revolut_checkout",
-    name: "Revolut Checkout",
+    name: "Embedded Checkout",
     demoLabel: "Embedded Checkout Demo",
     description:
-      "Embedded checkout experience using the Revolut Checkout Web SDK. The customer stays on your site while Revolut handles payment methods in-page.",
+      "Embedded Checkout experience using the Embedded Checkout Web SDK. The customer stays on your site while Revolut handles payment methods in-page.",
     characteristics: [
       "Widget embedded on merchant page",
       "Server-side order token via secret key",
-      "Revolut Checkout Web SDK",
+      "Embedded Checkout Web SDK",
       "Ideal for seamless on-brand checkout",
     ],
     comparison: {
@@ -42,8 +42,8 @@ export const SOLUTIONS: SolutionMeta[] = [
   },
   {
     id: "hosted_checkout",
-    name: "Hosted Checkout",
-    demoLabel: "Hosted Checkout Demo",
+    name: "Hosted payment page/redirect Checkout",
+    demoLabel: "Hosted payment page/redirect Checkout Demo",
     description:
       "Redirect-based checkout where the customer completes payment on a Revolut-hosted checkout page, then returns to your success URL.",
     characteristics: [
@@ -57,7 +57,7 @@ export const SOLUTIONS: SolutionMeta[] = [
       redirectRequired: "Yes — leaves merchant origin",
       integrationType: "Merchant API + redirect",
       customisation: "Limited — Revolut-hosted UI",
-      paymentMethods: "Full Revolut checkout methods",
+      paymentMethods: "Full Revolut payment methods",
       mobileExperience: "Optimised hosted mobile flow",
       bestSuitedFor: "Merchants prioritising speed-to-market",
     },
