@@ -6,9 +6,17 @@ interface OverviewData {
   whyChoose: readonly string[];
 }
 
-export function SolutionOverviewPanel({ data }: { data: OverviewData }) {
+export function SolutionOverviewPanel({
+  data,
+  className = "glass rounded-3xl p-6 md:p-8 h-full",
+  as: Tag = "article",
+}: {
+  data: OverviewData;
+  className?: string;
+  as?: "article" | "div";
+}) {
   return (
-    <article className="glass rounded-3xl p-6 md:p-8 h-full">
+    <Tag className={className}>
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h3 className="font-display text-xl font-semibold tracking-tight text-balance">{data.title}</h3>
         {data.subtitle && (
@@ -62,6 +70,6 @@ export function SolutionOverviewPanel({ data }: { data: OverviewData }) {
           </ul>
         </div>
       </div>
-    </article>
+    </Tag>
   );
 }

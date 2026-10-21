@@ -117,16 +117,12 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { DecisionMatrix } from "../components/dashboard/DecisionMatrix";
 import { FlowSection } from "../components/dashboard/FlowSection";
 import { KeyTakeaways } from "../components/dashboard/KeyTakeaways";
+import { FloatingOverview } from "../components/dashboard/FloatingOverview";
 import { RevolutCardHero } from "../components/dashboard/RevolutCardHero";
 import { SolutionCard } from "../components/dashboard/SolutionCard";
-import { SolutionOverviewPanel } from "../components/dashboard/SolutionOverviewPanel";
 import { TechnicalComparisonMatrix } from "../components/dashboard/TechnicalComparisonMatrix";
 import { Layout } from "../components/Layout";
 import "./dashboard-flow.css";
-import {
-  HOSTED_CHECKOUT_OVERVIEW,
-  REVOLUT_CHECKOUT_OVERVIEW,
-} from "../constants/comparisonOverview";
 import { SOLUTIONS } from "../constants/solutions";
 import { useConfig } from "../config";
 
@@ -161,7 +157,6 @@ function DeferredDashboardTopDock() {
 
 export function DashboardPage() {
   const config = useConfig();
-
   return (
     <Layout mode="dashboard">
       <DeferredDashboardTopDock />
@@ -210,27 +205,12 @@ export function DashboardPage() {
           <div className="flow-item mb-8">
             <h2 className="section-title">Overview</h2>
             <p className="mt-2 text-sm text-ink-soft max-w-2xl">
-              Two integration patterns for accepting payments with Revolut — each optimised for
+              Integration patterns for accepting payments with Revolut — each optimised for
               different merchant needs and technical constraints.
             </p>
           </div>
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="flow-card h-full" style={delay(0)}>
-              <SolutionOverviewPanel
-                data={{ title: "Embedded Checkout", ...REVOLUT_CHECKOUT_OVERVIEW }}
-              />
-            </div>
-            <div className="flow-card h-full" style={delay(1)}>
-              <SolutionOverviewPanel
-                data={{
-                  title: "Redirect Checkout/Hosted Payment Page",
-                  subtitle: HOSTED_CHECKOUT_OVERVIEW.subtitle,
-                  bestSuitedFor: HOSTED_CHECKOUT_OVERVIEW.bestSuitedFor,
-                  merchantExperience: HOSTED_CHECKOUT_OVERVIEW.merchantExperience,
-                  whyChoose: HOSTED_CHECKOUT_OVERVIEW.whyChoose,
-                }}
-              />
-            </div>
+          <div className="flow-card">
+            <FloatingOverview />
           </div>
         </FlowSection>
 
