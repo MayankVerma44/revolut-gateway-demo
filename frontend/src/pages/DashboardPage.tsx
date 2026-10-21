@@ -175,13 +175,27 @@ export function DashboardPage() {
         <h1 className="hero-in hero-title" style={delay(0)}>
           Embedded Checkout vs Redirect Checkout/Hosted Payment Page
         </h1>
-        <p className="hero-in mt-5 text-lg text-ink-soft leading-relaxed" style={delay(1)}>
-          A guide to choosing the right payment integration for your merchants. Compare
-          approaches, explore interactive demos, and walk through each checkout experience.
-        </p>
+        <div className="hero-lede">
+          <p className="hero-in hero-lede-intro" style={delay(1)}>
+            A guide to choosing the right payment gateway integration methods for you.
+          </p>
+          <ul className="hero-points">
+            {[
+              "Compare integration approaches side by side",
+              "Explore interactive demos and checkout experiences",
+              "Understand the key capabilities, trade-offs, and use cases",
+              "Walk through each payment journey before making a decision",
+            ].map((point, index) => (
+              <li key={point} className="hero-in" style={delay(index + 2)}>
+                <span className="hero-point-mark" aria-hidden="true" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div
           className="hero-in mt-6 inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs text-ink-soft"
-          style={delay(2)}
+          style={delay(6)}
         >
           <span className="status-dot" />
           {config.sandboxReady
