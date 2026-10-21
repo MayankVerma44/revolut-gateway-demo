@@ -496,37 +496,85 @@
 .rv-card-front {
   transform: translateZ(26px);
   background:
-    radial-gradient(120% 90% at 0% 0%, rgba(255, 255, 255, 0.14), transparent 55%),
-    linear-gradient(145deg, #3b4148 0%, #1a1e23 34%, #0b0d10 66%, #22282f 100%);
+    radial-gradient(90% 70% at 8% 6%, rgba(232, 238, 246, 0.3), transparent 46%),
+    radial-gradient(70% 55% at 92% 88%, rgba(125, 211, 252, 0.1), transparent 58%),
+    linear-gradient(148deg, #6b7380 0%, #3a414c 16%, #1b2027 38%, #0b0d11 58%, #171c23 78%, #4a5260 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.32),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    0 40px 80px -20px rgba(0, 0, 0, 0.8),
-    0 18px 36px -18px rgba(56, 189, 248, 0.25);
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    inset 1px 0 0 rgba(255, 255, 255, 0.1),
+    inset -1px 0 0 rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 40px 80px -20px rgba(0, 0, 0, 0.86),
+    0 16px 34px -16px rgba(56, 189, 248, 0.2);
 }
 
 .rv-card-back {
   transform: translate3d(calc(-15% - var(--p) * 30px), calc(13% + var(--p) * 40px), -48px)
     rotateZ(-9deg);
   background:
-    radial-gradient(120% 90% at 100% 0%, rgba(255, 255, 255, 0.22), transparent 55%),
-    linear-gradient(150deg, #9aa7b6 0%, #5c6876 40%, #2f3740 100%);
+    radial-gradient(80% 60% at 18% 0%, rgba(255, 255, 255, 0.05), transparent 52%),
+    linear-gradient(158deg, #141518 0%, #08090b 36%, #030304 68%, #0a0b0d 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 30px 60px -24px rgba(0, 0, 0, 0.8);
-  opacity: 0.7;
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+    0 28px 56px -22px rgba(0, 0, 0, 0.95);
+  opacity: 0.94;
+}
+
+.rv-card-alloy {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rv-card-front .rv-card-alloy {
+  background:
+    linear-gradient(115deg, rgba(210, 220, 232, 0.16), transparent 36%),
+    linear-gradient(300deg, rgba(0, 0, 0, 0.28), transparent 42%);
+}
+
+.rv-card-back .rv-card-alloy {
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.035), transparent 38%),
+    linear-gradient(300deg, rgba(0, 0, 0, 0.45), transparent 48%);
 }
 
 .rv-card-brush {
   position: absolute;
   inset: 0;
-  opacity: 0.16;
+  opacity: 0.22;
   background: repeating-linear-gradient(
-    100deg,
-    rgba(255, 255, 255, 0.18) 0 1px,
+    102deg,
+    rgba(255, 255, 255, 0.16) 0 1px,
     transparent 1px 3px
   );
   mix-blend-mode: overlay;
+}
+
+.rv-card-back .rv-card-brush {
+  opacity: 0.07;
+  background: repeating-linear-gradient(
+    98deg,
+    rgba(255, 255, 255, 0.1) 0 1px,
+    transparent 1px 4px
+  );
+}
+
+.rv-card-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0 1px, transparent 1px 3px);
+  mix-blend-mode: overlay;
+}
+
+.rv-card-back .rv-card-grain {
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
 }
 
 .rv-card-sheen {
@@ -534,14 +582,44 @@
   inset: -40%;
   background: linear-gradient(
     115deg,
-    transparent 35%,
-    rgba(255, 255, 255, 0.05) 42%,
-    rgba(200, 225, 255, 0.28) 50%,
-    rgba(255, 255, 255, 0.05) 58%,
-    transparent 65%
+    transparent 32%,
+    rgba(255, 255, 255, 0.04) 40%,
+    rgba(226, 236, 248, 0.38) 50%,
+    rgba(186, 210, 230, 0.1) 57%,
+    transparent 66%
   );
   transform: translate3d(calc(var(--rx) * 22% - var(--p) * 30%), calc(var(--ry) * 12%), 0);
   mix-blend-mode: screen;
+}
+
+.rv-card-back .rv-card-sheen {
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+  background: linear-gradient(
+    118deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.04) 46%,
+    rgba(200, 208, 220, 0.12) 50%,
+    rgba(255, 255, 255, 0.03) 54%,
+    transparent 64%
+  );
+}
+
+.rv-card-rim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.rv-card-back .rv-card-rim {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 0 18px rgba(255, 255, 255, 0.02),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
 .rv-card-wordmark {
@@ -553,11 +631,14 @@
   font-size: clamp(1.05rem, 2.1vw, 1.55rem);
   font-weight: 600;
   letter-spacing: -0.045em;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18),
+    0 1px 0 rgba(0, 0, 0, 0.55);
 }
 
 .rv-card-back .rv-card-wordmark {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(220, 222, 226, 0.38);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
 }
 
 .rv-card-chip {
@@ -573,7 +654,8 @@
   left: 24%;
   top: 41%;
   width: 7%;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(226, 232, 240, 0.78);
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.2));
 }
 
 .rv-card-number {

@@ -43,8 +43,11 @@ function Contactless() {
 function RevolutCard({ variant }: { variant: "front" | "back" }) {
   return (
     <div className={`rv-card rv-card-${variant}`}>
+      <span className="rv-card-alloy" />
       <span className="rv-card-brush" />
+      <span className="rv-card-grain" />
       <span className="rv-card-sheen" />
+      <span className="rv-card-rim" />
       <span className="rv-card-wordmark">Revolut</span>
       {variant === "front" && (
         <>

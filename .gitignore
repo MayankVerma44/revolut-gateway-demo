@@ -12,5 +12,6 @@ coverage
 .vercel
 .vercel-deploy-*
 .vercel-mcp-*
+.vercel-merged-*
 .vercel-prebuilt-*
 .vercel-full-deploy-args.json
