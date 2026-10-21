@@ -118,6 +118,7 @@ import { DecisionMatrix } from "../components/dashboard/DecisionMatrix";
 import { FlowSection } from "../components/dashboard/FlowSection";
 import { KeyTakeaways } from "../components/dashboard/KeyTakeaways";
 import { FloatingOverview } from "../components/dashboard/FloatingOverview";
+import { RevolutWordmark } from "../components/RevolutWordmark";
 import { RevolutCardHero } from "../components/dashboard/RevolutCardHero";
 import { SolutionCard } from "../components/dashboard/SolutionCard";
 import { TechnicalComparisonMatrix } from "../components/dashboard/TechnicalComparisonMatrix";
@@ -168,7 +169,12 @@ export function DashboardPage() {
           {/* <span>v1.2 Draft</span> */}
         </div>
         <h1 className="hero-in hero-title" style={delay(0)}>
-          Embedded Checkout vs Redirect Checkout/Hosted Payment Page
+          Embedded Checkout, Hosted Payment Page, Plugins & Individual SDKs
+          <span className="hero-powered">
+            — Powered by
+            <span className="sr-only"> Revolut</span>
+            <RevolutWordmark className="hero-powered-logo" />
+          </span>
         </h1>
         <div className="hero-lede">
           <p className="hero-in hero-lede-intro" style={delay(1)}>

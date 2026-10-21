@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../cart";
 import { useConfig } from "../config";
 import { useCheckoutSession } from "../checkoutSession";
+import { RevolutWordmark } from "./RevolutWordmark";
 
 type LayoutMode = "dashboard" | "store" | "minimal";
 
@@ -42,7 +43,11 @@ export function Layout({
             >
               <span className="brand-icon" aria-hidden="true">R</span>
               <span className="brand-text">
-                <span className="brand-title">Revolut Demo</span>
+                <span className="brand-title">
+                  <span className="sr-only">Revolut </span>
+                  <RevolutWordmark className="brand-wordmark" />
+                  Demo
+                </span>
                 {layoutMode === "dashboard" && (
                   <span className="brand-tagline">Compare checkout solutions</span>
                 )}

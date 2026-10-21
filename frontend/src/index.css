@@ -239,6 +239,16 @@ body {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  display: inline-flex;
+  align-items: center;
+}
+
+.brand-wordmark {
+  display: block;
+  height: 1.35em;
+  width: 5.72em;
+  margin-right: 0.45em;
+  flex-shrink: 0;
 }
 
 .brand-tagline {
@@ -321,6 +331,24 @@ body {
   .hero-title {
     font-size: 3.25rem;
   }
+}
+
+.hero-powered {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  margin-top: 0.55em;
+  font-size: 0.4em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.hero-powered-logo {
+  display: block;
+  height: 1.7em;
+  width: 7.2em;
+  flex-shrink: 0;
 }
 
 .section-title {
