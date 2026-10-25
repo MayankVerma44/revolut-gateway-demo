@@ -356,6 +356,19 @@
     --lift: 36px;
     margin-top: -0.35rem;
   }
+
+  .overview-float-slot-5 {
+    --tilt-x: 6deg;
+    --tilt-y: 11deg;
+    --lift: 28px;
+    margin-top: 0.65rem;
+  }
+
+  .overview-float-slot-6 {
+    --tilt-x: 7deg;
+    --tilt-y: -11deg;
+    --lift: 48px;
+  }
 }
 
 .overview-float {

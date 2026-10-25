@@ -4,7 +4,7 @@ export function TechnicalComparisonMatrix() {
   return (
     <div className="glass rounded-3xl overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="comparison-table w-full min-w-[760px] text-sm">
+        <table className="comparison-table w-full min-w-[980px] text-sm">
           <thead>
             <tr>
               <th className="text-left font-medium text-ink-soft w-[22%]">Feature</th>

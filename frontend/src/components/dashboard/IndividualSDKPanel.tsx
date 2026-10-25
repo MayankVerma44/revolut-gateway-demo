@@ -15,7 +15,6 @@ export function IndividualSDKPanel({
         <h3 className="font-display text-xl font-semibold tracking-tight">
           {SDK_COLUMN?.name ?? "Individual SDKs"}
         </h3>
-        <span className="text-xs text-ink-soft uppercase tracking-wider">Not in this demo</span>
       </div>
       <p className="mt-3 text-sm text-ink-soft leading-relaxed">
         {SDK_COLUMN?.description}. This option already appears in the technical comparison beside
@@ -29,7 +28,7 @@ export function IndividualSDKPanel({
           </h4>
           <ul className="space-y-2">
             {[
-              "Custom storefronts that need standalone express buttons",
+              "Custom storefronts that need standalone buttons",
               "Checkout that stays on the merchant website",
               "Modular frontend SDK placements",
             ].map((item) => (

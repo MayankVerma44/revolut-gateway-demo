@@ -118,6 +118,7 @@ import { DecisionMatrix } from "../components/dashboard/DecisionMatrix";
 import { FlowSection } from "../components/dashboard/FlowSection";
 import { KeyTakeaways } from "../components/dashboard/KeyTakeaways";
 import { FloatingOverview } from "../components/dashboard/FloatingOverview";
+import { IndividualApiDemoCard, SubscriptionApiDemoCard } from "../components/dashboard/IndividualApiDemos";
 import { RevolutWordmark } from "../components/RevolutWordmark";
 import { RevolutCardHero } from "../components/dashboard/RevolutCardHero";
 import { SolutionCard } from "../components/dashboard/SolutionCard";
@@ -266,6 +267,12 @@ export function DashboardPage() {
                 <SolutionCard solution={solution} />
               </div>
             ))}
+            <div className="flow-card h-full" style={delay(SOLUTIONS.length)}>
+              <IndividualApiDemoCard />
+            </div>
+            <div className="flow-card h-full" style={delay(SOLUTIONS.length + 1)}>
+              <SubscriptionApiDemoCard />
+            </div>
           </div>
         </FlowSection>
       </div>

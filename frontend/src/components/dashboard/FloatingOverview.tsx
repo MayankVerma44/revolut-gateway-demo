@@ -1,5 +1,10 @@
 import { type CSSProperties } from "react";
-import { HOSTED_CHECKOUT_OVERVIEW, REVOLUT_CHECKOUT_OVERVIEW } from "../../constants/comparisonOverview";
+import {
+  HOSTED_CHECKOUT_OVERVIEW,
+  REVOLUT_CHECKOUT_OVERVIEW,
+  SERVER_TO_SERVER_OVERVIEW,
+  SUBSCRIPTION_APIS_OVERVIEW,
+} from "../../constants/comparisonOverview";
 import { OVERVIEW_TILES, type OverviewTile } from "../../constants/overviewTiles";
 import { IndividualSDKPanel } from "./IndividualSDKPanel";
 import { PluginsPanel } from "./PluginsPanel";
@@ -33,7 +38,25 @@ function TileBody({ id }: { id: OverviewTile["id"] }) {
   if (id === "individual-sdks") {
     return <IndividualSDKPanel as="div" className="overview-inline-panel" />;
   }
-  return <PluginsPanel as="div" className="overview-inline-panel" />;
+  if (id === "plugins") {
+    return <PluginsPanel as="div" className="overview-inline-panel" />;
+  }
+  if (id === "subscription-apis") {
+    return (
+      <SolutionOverviewPanel
+        as="div"
+        className="overview-inline-panel"
+        data={{ title: "Subscription APIs", ...SUBSCRIPTION_APIS_OVERVIEW }}
+      />
+    );
+  }
+  return (
+    <SolutionOverviewPanel
+      as="div"
+      className="overview-inline-panel"
+      data={{ title: "Server-to-Server Integration", ...SERVER_TO_SERVER_OVERVIEW }}
+    />
+  );
 }
 
 function FloatingCard({ tile, index }: { tile: OverviewTile; index: number }) {

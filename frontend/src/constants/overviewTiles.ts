@@ -1,4 +1,10 @@
-export type OverviewTileId = "embedded" | "hosted" | "individual-sdks" | "plugins";
+export type OverviewTileId =
+  | "embedded"
+  | "hosted"
+  | "individual-sdks"
+  | "plugins"
+  | "subscription-apis"
+  | "server-to-server";
 
 export interface OverviewTile {
   id: OverviewTileId;
@@ -36,5 +42,19 @@ export const OVERVIEW_TILES: readonly OverviewTile[] = [
     description: "Connect Revolut through supported ecommerce platform plugins.",
     accent: "success",
     chips: ["WooCommerce", "Magento", "PrestaShop"],
+  },
+  {
+    id: "subscription-apis",
+    title: "Subscription APIs",
+    description: "Bill customers on a schedule, with Revolut running each renewal.",
+    accent: "ink",
+    chips: ["Recurring"],
+  },
+  {
+    id: "server-to-server",
+    title: "Server-to-Server Integration",
+    description: "Create orders and submit payments from your backend.",
+    accent: "ink",
+    chips: ["Merchant API"],
   },
 ];

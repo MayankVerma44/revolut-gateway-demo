@@ -1,4 +1,4 @@
-const PLATFORMS = ["WooCommerce", "Magento", "PrestaShop", "Other supported platforms"] as const;
+const PLATFORMS = ["WooCommerce", "Magento", "PrestaShop", "BigCommerce", "OpenCart", "Shopify"] as const;
 
 export function PluginsPanel({
   className = "glass rounded-3xl p-6 md:p-8 h-full",
@@ -11,7 +11,6 @@ export function PluginsPanel({
     <Tag className={className}>
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h3 className="font-display text-xl font-semibold tracking-tight">Plugins</h3>
-        <span className="text-xs text-ink-soft uppercase tracking-wider">Not in this demo</span>
       </div>
       <p className="mt-3 text-sm text-ink-soft leading-relaxed">
         Use a supported ecommerce plugin when the merchant already has a storefront and wants
