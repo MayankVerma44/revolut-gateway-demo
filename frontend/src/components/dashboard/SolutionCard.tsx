@@ -30,13 +30,11 @@ export function SolutionCard({ solution }: { solution: SolutionMeta }) {
         ))}
       </ul>
 
-      <button
-        type="button"
-        className="btn-primary mt-8 w-full"
-        onClick={() => session.launch(solution.id)}
-      >
-        Launch Demo
-      </button>
+      <div className="mt-auto pt-8">
+        <button type="button" className="btn-pearl" onClick={() => session.launch(solution.id)}>
+          Launch Demo
+        </button>
+      </div>
     </article>
   );
 }

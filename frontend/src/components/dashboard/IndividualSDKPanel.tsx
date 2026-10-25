@@ -58,10 +58,6 @@ export function IndividualSDKPanel({
           </ul>
         </div>
       </div>
-
-      <a href="#dashboard-comparison" className="mt-6 inline-flex text-sm text-teal hover:underline">
-        Open technical comparison
-      </a>
     </Tag>
   );
 }

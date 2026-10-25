@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { INDIVIDUAL_API_DEMOS, SUBSCRIPTION_API_DEMO } from "../../constants/paymentMethodDemos";
-import { PaymentMethodButton } from "../ui/PaymentMethodButton";
+import { PaymentMethodBeamRow } from "../ui/PaymentMethodBeamRow";
 
 function DemoIcon({ children }: { children: ReactNode }) {
   return (
@@ -53,15 +53,10 @@ function DemoCard({
 export function IndividualApiDemoCard() {
   return (
     <DemoCard
-      badge="Individual APIs Demo"
-      title="Individual APIs"
-      description="Launch a sandbox demo for one payment method, without mounting a full checkout."
-      points={[
-        "Card Popup, Revolut Pay, Apple Pay, Google Pay, and Pay by Bank",
-        "Each method opens its own sandbox demo",
-        "Same payment marks used across the row",
-        "The main dashboard stays open in this tab",
-      ]}
+      badge="Individual SDKs Demo"
+      title="Individual SDKs"
+      description="Launch a demo for individual payment methods on a checkout page"
+      points={["Each method opens its own sandbox demo"]}
       icon={
         <DemoIcon>
           <rect x="7" y="14" width="34" height="22" rx="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
@@ -70,16 +65,7 @@ export function IndividualApiDemoCard() {
         </DemoIcon>
       }
       action={
-        <div className="payment-method-row mt-0">
-          {INDIVIDUAL_API_DEMOS.map((method) => (
-            <PaymentMethodButton
-              key={method.id}
-              label={method.label}
-              icon={method.icon}
-              href={method.href}
-            />
-          ))}
-        </div>
+        <PaymentMethodBeamRow methods={INDIVIDUAL_API_DEMOS} />
       }
     />
   );
@@ -112,7 +98,7 @@ export function SubscriptionApiDemoCard() {
       }
       action={
         <a
-          className="btn-primary w-full"
+          className="btn-pearl"
           href={SUBSCRIPTION_API_DEMO.href}
           target="_blank"
           rel="noopener noreferrer"

@@ -23,6 +23,11 @@ body,
   min-height: 100%;
 }
 
+#root {
+  position: relative;
+  z-index: 1;
+}
+
 body {
   margin: 0;
   color: var(--color-ink);
@@ -151,12 +156,264 @@ body {
   cursor: not-allowed;
 }
 
+.btn-pearl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3.125rem;
+  padding: 0.8125rem 1.625rem;
+  border-radius: 9999px;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-decoration: none;
+  background:
+    linear-gradient(180deg, rgba(186, 230, 253, 0.2), rgba(125, 211, 252, 0.07) 40%, rgba(8, 12, 18, 0.72));
+  border: 1px solid rgba(125, 211, 252, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 8px 16px rgba(0, 0, 0, 0.28),
+    0 0 18px rgba(56, 189, 248, 0.1);
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.btn-pearl:hover {
+  transform: translateY(-2px);
+  border-color: rgba(125, 211, 252, 0.48);
+  background:
+    linear-gradient(180deg, rgba(224, 242, 254, 0.28), rgba(125, 211, 252, 0.1) 40%, rgba(8, 12, 18, 0.64));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    0 4px 8px rgba(0, 0, 0, 0.32),
+    0 14px 24px rgba(0, 0, 0, 0.34),
+    0 0 22px rgba(56, 189, 248, 0.16);
+}
+
+.btn-pearl:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 2px 6px rgba(0, 0, 0, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-pearl:focus-visible {
+  outline: 2px solid rgba(125, 211, 252, 0.8);
+  outline-offset: 3px;
+}
+
+.payment-hub {
+  --hub-radius: 7.75rem;
+  position: relative;
+  height: 23.5rem;
+  margin-top: 0.25rem;
+}
+
+.payment-hub-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.payment-hub-orbit {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 1.25;
+  stroke-dasharray: 1.5 7;
+}
+
+.payment-hub-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+
+.payment-hub-pulse {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 16 120;
+  filter: drop-shadow(0 0 5px rgba(125, 211, 252, 0.9));
+  animation: payment-beam-travel 2.8s linear infinite;
+}
+
+.payment-hub-core,
+.payment-hub-disc {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04) 42%, rgba(0, 0, 0, 0.35));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.payment-hub-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 4.25rem;
+  height: 4.25rem;
+  transform: translate(-50%, -50%);
+  color: #f5f5f7;
+  background:
+    radial-gradient(circle at 50% 42%, #2a2d33, #0c0d10 72%);
+}
+
+.payment-hub-core svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+.payment-hub-node {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 6.4rem;
+  transform: translate(-50%, -1.8rem);
+  color: inherit;
+  text-decoration: none;
+}
+
+.payment-hub-disc {
+  width: 3.6rem;
+  height: 3.6rem;
+  overflow: hidden;
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 180ms ease;
+}
+
+.payment-hub-node:hover .payment-hub-disc {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.payment-hub-node:focus-visible .payment-hub-disc {
+  outline: 2px solid rgba(125, 211, 252, 0.8);
+  outline-offset: 3px;
+}
+
+.payment-hub-label {
+  color: rgba(245, 245, 247, 0.78);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.payment-hub-fallback {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.payment-hub-disc .payment-card-marks {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  gap: 0.14rem 0.2rem;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.42rem 0.28rem;
+  border-radius: inherit;
+  background: transparent;
+  transform: none;
+}
+
+.payment-hub-disc .payment-card-marks .payment-mark:first-child text {
+  fill: #f5f5f7;
+}
+
+.payment-hub-disc .payment-card-marks .payment-mark:first-child {
+  grid-column: 1 / -1;
+  height: 0.52rem;
+  width: auto;
+}
+
+.payment-hub-disc .payment-card-marks .payment-mark-wide {
+  width: 0.95rem;
+  height: auto;
+}
+
+.payment-hub-disc .payment-card-marks .payment-mark:last-child {
+  height: 0.58rem;
+  width: auto;
+}
+
+.payment-hub-disc .payment-revolut-mark {
+  width: 2.35rem;
+  height: auto;
+}
+
+.payment-hub-disc .payment-mark-apple,
+.payment-hub-disc .payment-mark-google {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+@keyframes payment-beam-travel {
+  to {
+    stroke-dashoffset: -136;
+  }
+}
+
+@media (max-width: 520px) {
+  .payment-hub {
+    --hub-radius: 6.35rem;
+    height: 21rem;
+  }
+
+  .payment-hub-node {
+    width: 5.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .payment-hub-pulse {
+    animation: none;
+    stroke-dasharray: none;
+    opacity: 0.4;
+  }
+}
+
 .payment-method-row {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.65rem;
   margin-top: 1.25rem;
+}
+
+.payment-beam .payment-method-row {
+  gap: 1.15rem 1.35rem;
 }
 
 .payment-method-button {

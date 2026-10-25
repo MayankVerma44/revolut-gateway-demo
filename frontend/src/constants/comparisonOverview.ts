@@ -25,11 +25,11 @@ export const TECHNICAL_COMPARISON = [
   {
     label: "Integration and setup",
     rows: [
-      { feature: "Development Effort", values: ["Flexible code", "Low code", "Pro code", "No code"] },
-      { feature: "Setup Timeline", values: ["Day+", "Hours", "Week+", "Minutes"] },
+      { feature: "Development Effort", values: ["Low code", "Low code", "Pro code", "Low code"] },
+      { feature: "Setup Timeline", values: ["Day+", "Hours", "Week+", "Same Day/ Day+"] },
       {
         feature: "Technical Stack",
-        values: ["Single unified SDK", "Simple redirect script", "Modular frontend SDKs", "No-code setup"],
+        values: ["Single unified SDK", "Simple redirect script", "Modular frontend SDKs", "Low-code setup"],
       },
       {
         feature: "PCI Compliance Load",
@@ -60,16 +60,16 @@ export const TECHNICAL_COMPARISON = [
     rows: [
       { feature: "Customer stays on merchant site", values: ["Yes", "No", "Yes", "Yes"] },
       { feature: "Embedded Checkout", values: ["Yes", "No", "Individual placements", "—"] },
-      { feature: "Hosted by Revolut", values: ["No", "Yes", "No", "—"] },
-      { feature: "Cards & alternative methods", values: ["Yes", "Yes", "Yes", "—"] },
+      { feature: "Hosted by Revolut", values: ["No", "Yes", "No", "Yes"] },
+      { feature: "Cards & alternative methods", values: ["Yes", "Yes", "Yes", "Yes"] },
       {
         feature: "Appearance customisation",
-        values: ["Full (5/5)", "Limited (3/5)", "Merchant Controlled", "Native to platform"],
+        values: ["Full (5/5)", "Limited (3/5)", "Merchant Controlled", "Limited"],
       },
       { feature: "Dashboard configuration", values: ["Yes", "Branding only", "No", "—"] },
-      { feature: "Integration effort", values: ["Medium", "Low", "High", "No code"] },
-      { feature: "Best for Revolut-only acquiring", values: ["Yes", "N/A", "Yes", "—"] },
-      { feature: "Best for multi-acquirer setups", values: ["No", "Yes", "Yes", "—"] },
+      { feature: "Integration effort", values: ["Medium", "Low", "High", "Very Low"] },
+      { feature: "Best for Revolut-only acquiring", values: ["Yes", "Yes", "Yes", "Yes"] },
+      { feature: "Best for multi-acquirer setups", values: ["No", "Yes", "Yes", "Yes"] },
     ],
   },
 ] as const;
@@ -98,7 +98,6 @@ export const REVOLUT_CHECKOUT_OVERVIEW = {
 };
 
 export const HOSTED_CHECKOUT_OVERVIEW = {
-  subtitle: "Payment Links API",
   bestSuitedFor: [
     "Multi-acquirer environments",
     "Payment Links / remote sales",
@@ -127,18 +126,21 @@ export const HOSTED_CHECKOUT_OVERVIEW = {
 };
 
 export const SUBSCRIPTION_APIS_OVERVIEW = {
+  subtitle: "Billing & subscriptions",
   bestSuitedFor: [
-    "Recurring billing for memberships and SaaS",
+    "SaaS, memberships, and premium content",
+    "Subscription boxes, instalments, and retainers",
     "Fixed, per-seat, usage-based, or trial pricing",
-    "Merchants who want Revolut to run the billing cycle",
-    "A first payment that also saves the payment method",
+    "A custom sign-up flow, or a hosted payment link",
   ],
-  merchantExperience: ["Choose a plan", "First payment", "Automatic renewals"],
+  merchantExperience: ["Create plans", "Checkout sign-up", "Automatic charges", "Webhooks"],
   whyChoose: [
-    "Plans, variations, and billing phases configured via API",
-    "Customer authorises once and the payment method is saved",
-    "Revolut charges each cycle and retries failed payments",
-    "Webhooks for subscription state changes",
+    "Custom checkout on your website or app",
+    "Plans and dynamic pricing created via the API",
+    "Metered usage reported through each billing period",
+    "Payment methods, plan changes, and cancellations via API",
+    "Webhooks for access, email, and CRM updates",
+    "Billing connected to your existing systems",
   ],
 };
 

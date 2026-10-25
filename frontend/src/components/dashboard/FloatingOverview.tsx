@@ -27,7 +27,6 @@ function TileBody({ id }: { id: OverviewTile["id"] }) {
         className="overview-inline-panel"
         data={{
           title: "Redirect Checkout/Hosted Payment Page",
-          subtitle: HOSTED_CHECKOUT_OVERVIEW.subtitle,
           bestSuitedFor: HOSTED_CHECKOUT_OVERVIEW.bestSuitedFor,
           merchantExperience: HOSTED_CHECKOUT_OVERVIEW.merchantExperience,
           whyChoose: HOSTED_CHECKOUT_OVERVIEW.whyChoose,
