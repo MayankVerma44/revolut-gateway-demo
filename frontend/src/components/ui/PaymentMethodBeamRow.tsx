@@ -8,8 +8,14 @@ interface BeamMethod {
 }
 
 interface Spoke {
+  id: string;
   d: string;
   delay: number;
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  axisAligned: boolean;
 }
 
 interface Orbit {
@@ -33,7 +39,7 @@ function localBox(rect: DOMRect, origin: DOMRect, scaleX: number, scaleY: number
   };
 }
 
-function spokePath(hub: LocalBox, node: LocalBox): string {
+function spokePath(hub: LocalBox, node: LocalBox) {
   const dx = node.x - hub.x;
   const dy = node.y - hub.y;
   const length = Math.hypot(dx, dy) || 1;
@@ -41,7 +47,18 @@ function spokePath(hub: LocalBox, node: LocalBox): string {
   const uy = dy / length;
   const hubRadius = hub.radius + 6;
   const nodeRadius = node.radius + 6;
-  return `M ${hub.x + ux * hubRadius} ${hub.y + uy * hubRadius} L ${node.x - ux * nodeRadius} ${node.y - uy * nodeRadius}`;
+  const x1 = hub.x + ux * hubRadius;
+  const y1 = hub.y + uy * hubRadius;
+  const x2 = node.x - ux * nodeRadius;
+  const y2 = node.y - uy * nodeRadius;
+  return {
+    d: `M ${x1} ${y1} L ${x2} ${y2}`,
+    x1,
+    y1,
+    x2,
+    y2,
+    axisAligned: Math.abs(x2 - x1) < 1 || Math.abs(y2 - y1) < 1,
+  };
 }
 
 export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod[] }) {
@@ -71,7 +88,7 @@ export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod
       const next = nodes.flatMap((node, index) => {
         const box = localBox(node.getBoundingClientRect(), origin, scaleX, scaleY);
         if (box.radius === 0) return [];
-        return [{ d: spokePath(hubBox, box), delay: index * 0.55 }];
+        return [{ id: methods[index]?.id ?? String(index), delay: index * 0.55, ...spokePath(hubBox, box) }];
       });
       const reach = nodes.reduce((max, node) => {
         const box = localBox(node.getBoundingClientRect(), origin, scaleX, scaleY);
@@ -112,15 +129,32 @@ export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod
             <stop offset="40%" stopColor="#f8fbff" />
             <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
           </linearGradient>
+          {spokes
+            .filter((spoke) => spoke.axisAligned)
+            .map((spoke) => (
+              <linearGradient
+                key={spoke.id}
+                id={`${gradientId}-${spoke.id}`}
+                gradientUnits="userSpaceOnUse"
+                x1={spoke.x1}
+                y1={spoke.y1}
+                x2={spoke.x2}
+                y2={spoke.y2}
+              >
+                <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0" />
+                <stop offset="40%" stopColor="#f8fbff" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+              </linearGradient>
+            ))}
         </defs>
         {orbit ? <ellipse className="payment-hub-orbit" cx={orbit.cx} cy={orbit.cy} rx={orbit.rx} ry={orbit.ry} /> : null}
         {spokes.map((spoke) => (
-          <g key={spoke.d}>
+          <g key={spoke.id}>
             <path className="payment-hub-track" d={spoke.d} />
             <path
               className="payment-hub-pulse"
               d={spoke.d}
-              stroke={`url(#${gradientId})`}
+              stroke={spoke.axisAligned ? `url(#${gradientId}-${spoke.id})` : `url(#${gradientId})`}
               style={{ animationDelay: `${spoke.delay}s` }}
             />
           </g>
