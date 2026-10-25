@@ -60,13 +60,15 @@ function TileBody({ id }: { id: OverviewTile["id"] }) {
 
 function FloatingCard({ tile, index }: { tile: OverviewTile; index: number }) {
   return (
-    <div
-      className={`overview-float-slot overview-float-slot-${index + 1}`}
-      style={{ "--float-delay": `${index * 0.45}s` } as CSSProperties}
-    >
-      <article className={`overview-float overview-float-${tile.accent}`}>
-        <TileBody id={tile.id} />
-      </article>
+    <div className={`overview-reveal overview-reveal-${index + 1}`}>
+      <div
+        className={`overview-float-slot overview-float-slot-${index + 1}`}
+        style={{ "--float-delay": `${index * 0.45}s` } as CSSProperties}
+      >
+        <article className={`overview-float overview-float-${tile.accent}`}>
+          <TileBody id={tile.id} />
+        </article>
+      </div>
     </div>
   );
 }

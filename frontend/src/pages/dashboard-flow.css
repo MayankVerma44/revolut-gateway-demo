@@ -11,36 +11,43 @@
   }
 }
 
-@keyframes home-flow-card {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(0.99);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
 .flow-section:not(.is-in) .flow-item,
 .flow-section:not(.is-in) .flow-card {
   opacity: 0;
+  transform: scale(0.8) translateY(20px);
 }
 
-.flow-section:not(.is-in) .flow-item {
-  transform: translateY(18px);
-}
-
-.flow-section:not(.is-in) .flow-card {
-  transform: translateY(18px) scale(0.99);
-}
-
-.flow-section.is-in .flow-item {
-  animation: home-flow 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
+.flow-section.is-in .flow-item,
 .flow-section.is-in .flow-card {
-  animation: home-flow-card 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fadeScaleIn 700ms linear both;
+}
+
+@keyframes fadeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll-linked fade and scale. Unsupported browsers keep the one-shot reveal above. */
+@supports (animation-timeline: view()) {
+  .flow-section:not(.is-in) .flow-item,
+  .flow-section:not(.is-in) .flow-card {
+    opacity: 1;
+    transform: none;
+  }
+
+  .flow-section .flow-item,
+  .flow-section .flow-card {
+    animation: fadeScaleIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 20%;
+  }
 }
 
 /* ---------- Revolut card hero ---------- */
@@ -192,13 +199,35 @@
   }
 }
 
+@property --overview-enter {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
 @keyframes overview-float {
   0%,
   100% {
-    transform: translate3d(0, 0, 0);
+    transform:
+      translate3d(0, calc((1 - var(--overview-enter, 1)) * 20px), 0)
+      scale(calc(0.8 + 0.2 * var(--overview-enter, 1)));
   }
   50% {
-    transform: translate3d(0, -12px, 0);
+    transform:
+      translate3d(0, calc(-12px + (1 - var(--overview-enter, 1)) * 20px), 0)
+      scale(calc(0.8 + 0.2 * var(--overview-enter, 1)));
+  }
+}
+
+@keyframes overviewTileEnter {
+  from {
+    --overview-enter: 0;
+    opacity: 0;
+  }
+
+  to {
+    --overview-enter: 1;
+    opacity: 1;
   }
 }
 
@@ -267,6 +296,12 @@
   }
 }
 
+.overview-reveal {
+  position: relative;
+  min-width: 0;
+  transform-style: preserve-3d;
+}
+
 .overview-float-slot {
   --float-delay: 0s;
   --tilt-x: 2deg;
@@ -295,11 +330,14 @@
 }
 
 @media (min-width: 900px) {
+  .overview-reveal-1 {
+    margin-top: 0.65rem;
+  }
+
   .overview-float-slot-1 {
     --tilt-x: 6deg;
     --tilt-y: 11deg;
     --lift: 28px;
-    margin-top: 0.65rem;
   }
 
   .overview-float-slot-2 {
@@ -314,18 +352,24 @@
     --lift: 18px;
   }
 
+  .overview-reveal-4 {
+    margin-top: -0.35rem;
+  }
+
   .overview-float-slot-4 {
     --tilt-x: 5deg;
     --tilt-y: -10deg;
     --lift: 36px;
-    margin-top: -0.35rem;
+  }
+
+  .overview-reveal-5 {
+    margin-top: 0.65rem;
   }
 
   .overview-float-slot-5 {
     --tilt-x: 6deg;
     --tilt-y: 11deg;
     --lift: 28px;
-    margin-top: 0.65rem;
   }
 
   .overview-float-slot-6 {
@@ -353,6 +397,16 @@
     border-color 240ms ease,
     box-shadow 240ms ease,
     background-color 240ms ease;
+}
+
+@supports (animation-timeline: view()) {
+  .overview-float {
+    animation:
+      overview-float 7.5s ease-in-out var(--float-delay) infinite,
+      overviewTileEnter linear backwards;
+    animation-timeline: auto, view();
+    animation-range: normal, entry 0% cover 20%;
+  }
 }
 
 .overview-float::before {
@@ -385,6 +439,11 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .overview-reveal:hover {
+    z-index: 3;
+  }
+
+  .overview-reveal:hover .overview-float-slot,
   .overview-float-slot:hover {
     z-index: 3;
     --tilt-x: 1.25deg;
@@ -393,7 +452,7 @@
   }
 
   .overview-float-slot:hover .overview-float {
-    animation-play-state: paused;
+    animation-play-state: paused, running;
     border-color: rgba(255, 255, 255, 0.16);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
@@ -506,10 +565,15 @@
     transform: none;
   }
 
+  .flow-section .flow-item,
+  .flow-section .flow-card,
   .flow-section.is-in .flow-item,
   .flow-section.is-in .flow-card,
+  .overview-reveal,
   .hero-in {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 
   .hero-points li:hover {

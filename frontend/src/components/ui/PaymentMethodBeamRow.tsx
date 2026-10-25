@@ -19,19 +19,29 @@ interface Orbit {
   ry: number;
 }
 
-function spokePath(hub: DOMRect, node: DOMRect, origin: DOMRect): string {
-  const hubX = hub.left - origin.left + hub.width / 2;
-  const hubY = hub.top - origin.top + hub.height / 2;
-  const nodeX = node.left - origin.left + node.width / 2;
-  const nodeY = node.top - origin.top + node.height / 2;
-  const dx = nodeX - hubX;
-  const dy = nodeY - hubY;
+interface LocalBox {
+  x: number;
+  y: number;
+  radius: number;
+}
+
+function localBox(rect: DOMRect, origin: DOMRect, scaleX: number, scaleY: number): LocalBox {
+  return {
+    x: (rect.left - origin.left + rect.width / 2) / scaleX,
+    y: (rect.top - origin.top + rect.height / 2) / scaleY,
+    radius: rect.width / scaleX / 2,
+  };
+}
+
+function spokePath(hub: LocalBox, node: LocalBox): string {
+  const dx = node.x - hub.x;
+  const dy = node.y - hub.y;
   const length = Math.hypot(dx, dy) || 1;
   const ux = dx / length;
   const uy = dy / length;
-  const hubRadius = hub.width / 2 + 6;
-  const nodeRadius = node.width / 2 + 6;
-  return `M ${hubX + ux * hubRadius} ${hubY + uy * hubRadius} L ${nodeX - ux * nodeRadius} ${nodeY - uy * nodeRadius}`;
+  const hubRadius = hub.radius + 6;
+  const nodeRadius = node.radius + 6;
+  return `M ${hub.x + ux * hubRadius} ${hub.y + uy * hubRadius} L ${node.x - ux * nodeRadius} ${node.y - uy * nodeRadius}`;
 }
 
 export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod[] }) {
@@ -41,6 +51,7 @@ export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod
   const nodeRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [spokes, setSpokes] = useState<Spoke[]>([]);
   const [orbit, setOrbit] = useState<Orbit | null>(null);
+  const [viewBox, setViewBox] = useState("0 0 0 0");
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -48,27 +59,30 @@ export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod
     if (!container || !hub) return;
 
     const measure = () => {
+      const layoutWidth = container.offsetWidth;
+      const layoutHeight = container.offsetHeight;
+      if (!layoutWidth || !layoutHeight) return;
+
       const origin = container.getBoundingClientRect();
-      const hubRect = hub.getBoundingClientRect();
+      const scaleX = origin.width / layoutWidth || 1;
+      const scaleY = origin.height / layoutHeight || 1;
+      const hubBox = localBox(hub.getBoundingClientRect(), origin, scaleX, scaleY);
       const nodes = nodeRefs.current.filter((node): node is HTMLSpanElement => node !== null);
       const next = nodes.flatMap((node, index) => {
-        const rect = node.getBoundingClientRect();
-        if (rect.width === 0) return [];
-        return [{ d: spokePath(hubRect, rect, origin), delay: index * 0.55 }];
+        const box = localBox(node.getBoundingClientRect(), origin, scaleX, scaleY);
+        if (box.radius === 0) return [];
+        return [{ d: spokePath(hubBox, box), delay: index * 0.55 }];
       });
-      const hubX = hubRect.left - origin.left + hubRect.width / 2;
-      const hubY = hubRect.top - origin.top + hubRect.height / 2;
-      const reach = nodes.reduce(
-        (max, node) => {
-          const rect = node.getBoundingClientRect();
-          return Math.max(max, Math.hypot(rect.left + rect.width / 2 - hubRect.left - hubRect.width / 2, rect.top + rect.height / 2 - hubRect.top - hubRect.height / 2));
-        },
-        0,
-      );
+      const reach = nodes.reduce((max, node) => {
+        const box = localBox(node.getBoundingClientRect(), origin, scaleX, scaleY);
+        return Math.max(max, Math.hypot(box.x - hubBox.x, box.y - hubBox.y));
+      }, 0);
+
+      setViewBox(`0 0 ${layoutWidth} ${layoutHeight}`);
       setSpokes(next);
       setOrbit({
-        cx: hubX,
-        cy: hubY,
+        cx: hubBox.x,
+        cy: hubBox.y,
         rx: reach,
         ry: reach,
       });
@@ -91,7 +105,7 @@ export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod
 
   return (
     <div className="payment-hub" ref={containerRef}>
-      <svg className="payment-hub-svg" aria-hidden="true">
+      <svg className="payment-hub-svg" viewBox={viewBox} preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0" />

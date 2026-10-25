@@ -21,6 +21,8 @@ export function FlowSection({
       return;
     }
 
+    if (CSS.supports("animation-timeline", "view()")) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
