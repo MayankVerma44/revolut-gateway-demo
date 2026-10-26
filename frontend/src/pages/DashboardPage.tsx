@@ -125,7 +125,7 @@ import { TechnicalComparisonMatrix } from "../components/dashboard/TechnicalComp
 import { Layout } from "../components/Layout";
 import "./dashboard-flow.css";
 import { SOLUTIONS } from "../constants/solutions";
-import { useConfig } from "../config";
+import { useConfig, useConfigError } from "../config";
 
 const delay = (index: number) => ({ animationDelay: `${70 + index * 70}ms` });
 const DashboardTopDock = lazy(() =>
@@ -158,6 +158,7 @@ function DeferredDashboardTopDock() {
 
 export function DashboardPage() {
   const config = useConfig();
+  const configError = useConfigError();
   return (
     <Layout mode="dashboard">
       <DeferredDashboardTopDock />
@@ -202,9 +203,13 @@ export function DashboardPage() {
           style={delay(6)}
         >
           <span className="status-dot" />
-          {config.sandboxReady
-            ? `${config.revolutMode}`
-            : "Configure Revolut sandbox keys to enable checkout"}
+          {config?.sandboxReady
+            ? config.revolutMode
+            : configError
+              ? "Demo API unreachable"
+              : config
+                ? "Configure Revolut sandbox keys to enable checkout"
+                : "Connecting"}
         </div>
       </RevolutCardHero>
 

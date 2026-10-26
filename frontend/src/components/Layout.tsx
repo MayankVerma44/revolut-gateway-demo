@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../cart";
-import { useConfig } from "../config";
+import { useConfig, useConfigError } from "../config";
 import { useCheckoutSession } from "../checkoutSession";
 import { RevolutWordmark } from "./RevolutWordmark";
 
@@ -22,6 +22,7 @@ export function Layout({
 }) {
   const cart = useCart();
   const config = useConfig();
+  const configError = useConfigError();
   const session = useCheckoutSession();
   const { pathname } = useLocation();
   const layoutMode = resolveMode(pathname, session.isActive, mode);
@@ -94,9 +95,13 @@ export function Layout({
       {layoutMode === "store" && (
         <div className="env-banner">
           <span className="status-dot" />
-          {config.sandboxReady
+          {config?.sandboxReady
             ? `Demonstration store — ${config.revolutMode.toUpperCase()}`
-            : "Demonstration store — configure Revolut sandbox keys"}
+            : configError
+              ? "Demonstration store — demo API unreachable"
+              : config
+                ? "Demonstration store — configure Revolut sandbox keys"
+                : "Demonstration store"}
         </div>
       )}
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import type { CustomerDetails, IntegrationType } from "@demo/shared";
 import { api } from "../api";
 import { useCart } from "../cart";
-import { useConfig } from "../config";
+import { ConfigGate, useConfig } from "../config";
 import { IntegrationSelector, LockedIntegrationBadge } from "../components/IntegrationSelector";
 import { Layout } from "../components/Layout";
 import { useCheckoutSession } from "../checkoutSession";
@@ -55,7 +55,7 @@ export function CheckoutPage() {
   }, [session.integration]);
 
   useEffect(() => {
-    if (integration !== "revolut_checkout" || !config.sandboxReady) return;
+    if (!config || integration !== "revolut_checkout" || !config.sandboxReady) return;
     const target = widgetRef.current;
     if (!target) return;
 
@@ -100,6 +100,8 @@ export function CheckoutPage() {
     };
   }, [integration, config]);
 
+  if (!config) return <ConfigGate />;
+
   if (cart.quantity === 0) {
     return (
       <Layout>
@@ -116,7 +118,7 @@ export function CheckoutPage() {
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
-    if (integration !== "hosted_checkout") return;
+    if (!config || integration !== "hosted_checkout") return;
 
     setError(null);
     setBusy(true);

@@ -1,21 +1,56 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { PublicConfig } from "@demo/shared";
 import { api } from "./api";
+import { LoadingOverlay } from "./components/LoadingOverlay";
 
-const ConfigContext = createContext<PublicConfig | null>(null);
+type ConfigContextValue = {
+  config: PublicConfig | null;
+  error: string | null;
+};
+
+const ConfigContext = createContext<ConfigContextValue | null>(null);
+
+const configRequest = api.config();
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
   const [config, setConfig] = useState<PublicConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api
-      .config()
-      .then(setConfig)
-      .catch((err: Error) => setError(err.message));
+    let cancelled = false;
+    configRequest
+      .then((value) => {
+        if (!cancelled) setConfig(value);
+      })
+      .catch((err: Error) => {
+        if (!cancelled) setError(err.message);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  if (error) {
+  return <ConfigContext.Provider value={{ config, error }}>{children}</ConfigContext.Provider>;
+}
+
+function useConfigState() {
+  const value = useContext(ConfigContext);
+  if (!value) throw new Error("ConfigProvider missing");
+  return value;
+}
+
+export function useConfig() {
+  return useConfigState().config;
+}
+
+export function useConfigError() {
+  return useConfigState().error;
+}
+
+export function ConfigGate({ children }: { children?: ReactNode }) {
+  const { config, error } = useConfigState();
+
+  if (error && !config) {
     return (
       <div className="min-h-screen grid place-items-center p-8">
         <div className="glass max-w-md rounded-2xl p-8">
@@ -26,19 +61,7 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!config) {
-    return (
-      <div className="min-h-screen grid place-items-center text-ink-soft">
-        <div className="h-8 w-8 rounded-full border-2 border-teal/30 border-t-teal animate-spin" />
-      </div>
-    );
-  }
+  if (!config) return <LoadingOverlay />;
 
-  return <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>;
-}
-
-export function useConfig() {
-  const value = useContext(ConfigContext);
-  if (!value) throw new Error("ConfigProvider missing");
-  return value;
+  return children;
 }
