@@ -13,8 +13,8 @@ export function PluginsPanel({
         <h3 className="font-display text-xl font-semibold tracking-tight">Plugins</h3>
       </div>
       <p className="mt-3 text-sm text-ink-soft leading-relaxed">
-        Use a supported ecommerce plugin when the merchant already has a storefront and wants
-        Revolut without a custom checkout build. This demo does not include a plugin walkthrough.
+        Use a supported ecommerce plugin when you already have a storefront and want Revolut
+        without building a custom checkout. This demo does not include a plugin walkthrough.
       </p>
 
       <div className="mt-6 space-y-6">
@@ -40,9 +40,9 @@ export function PluginsPanel({
           </h4>
           <ul className="space-y-2">
             {[
-              "Merchants already on a supported ecommerce platform",
-              "Teams that prefer a plugin over a custom checkout",
-              "Faster storefront setup than a from-scratch integration",
+              "You already sell on a supported ecommerce platform",
+              "You prefer a plugin to a custom checkout",
+              "You want a faster setup than building from scratch",
             ].map((item) => (
               <li key={item} className="flex gap-2 text-sm text-ink-soft leading-relaxed">
                 <span className="text-teal shrink-0">·</span>

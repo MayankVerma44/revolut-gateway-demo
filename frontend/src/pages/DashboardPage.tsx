@@ -116,7 +116,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { DecisionMatrix } from "../components/dashboard/DecisionMatrix";
 import { FlowSection } from "../components/dashboard/FlowSection";
-import { KeyTakeaways } from "../components/dashboard/KeyTakeaways";
 import { FloatingOverview } from "../components/dashboard/FloatingOverview";
 import { IndividualApiDemoCard, SubscriptionApiDemoCard } from "../components/dashboard/IndividualApiDemos";
 import { RevolutWordmark } from "../components/RevolutWordmark";
@@ -170,7 +169,10 @@ export function DashboardPage() {
           {/* <span>v1.2 Draft</span> */}
         </div>
         <h1 className="hero-in hero-title" style={delay(0)}>
-          Embedded Checkout, Hosted Payment Page, Plugins & Individual SDKs
+          <span>
+            Embedded Checkout, Hosted Payment Page, Plugins, Individual SDKs, Subscriptions API &
+            Server-to-Server API
+          </span>
           <span className="hero-powered">
             — Powered by
             <span className="sr-only"> Revolut</span>
@@ -212,8 +214,8 @@ export function DashboardPage() {
           <div className="flow-item mb-8">
             <h2 className="section-title">Overview</h2>
             <p className="mt-2 text-sm text-ink-soft max-w-2xl">
-              Integration patterns for accepting payments with Revolut — each optimised for
-              different merchant needs and technical constraints.
+              Integration patterns for accepting payments with Revolut — each one fits a different
+              need and technical constraint.
             </p>
           </div>
           <div className="flow-card">
@@ -226,7 +228,7 @@ export function DashboardPage() {
           <div className="flow-item mb-8">
             <h2 className="section-title">Technical comparison</h2>
             <p className="mt-2 text-sm text-ink-soft max-w-2xl">
-              Side-by-side feature matrix for merchant conversations.
+              A side-by-side view of the features, so you can compare.
             </p>
           </div>
           <div className="flow-card" style={delay(0)}>
@@ -239,16 +241,10 @@ export function DashboardPage() {
           <div className="flow-item mb-8">
             <h2 className="section-title">Decision matrix</h2>
             <p className="mt-2 text-sm text-ink-soft max-w-2xl">
-              Which solution should I recommend?
+              Which solution should you choose?
             </p>
           </div>
           <DecisionMatrix />
-        </FlowSection>
-
-        {/* Key takeaways */}
-        <FlowSection id="dashboard-takeaways">
-          <h2 className="flow-item section-title mb-8">Key takeaways</h2>
-          <KeyTakeaways />
         </FlowSection>
 
         {/* Interactive demos — kept last on the dashboard */}

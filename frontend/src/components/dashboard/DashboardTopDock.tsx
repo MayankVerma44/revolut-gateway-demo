@@ -7,7 +7,6 @@ const DESTINATIONS = [
   { label: "Overview", target: "dashboard-overview" },
   { label: "Compare", target: "dashboard-comparison" },
   { label: "Decision", target: "dashboard-decision" },
-  { label: "Takeaways", target: "dashboard-takeaways" },
   { label: "Demos", target: "dashboard-demos" },
 ] as const;
 
@@ -41,7 +40,11 @@ export function DashboardTopDock() {
 
     const cleanups = buttons.map((button, index) => {
       const destination = DESTINATIONS[index];
-      if (!destination) return () => {};
+      if (!destination) {
+        button.hidden = true;
+        return () => {};
+      }
+      button.hidden = false;
 
       button.setAttribute("aria-label", destination.label);
       button.dataset.dashboardTarget = destination.target;

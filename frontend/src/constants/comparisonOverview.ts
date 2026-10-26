@@ -58,15 +58,15 @@ export const TECHNICAL_COMPARISON = [
   {
     label: "Feature comparison",
     rows: [
-      { feature: "Customer stays on merchant site", values: ["Yes", "No", "Yes", "Yes"] },
-      { feature: "Embedded Checkout", values: ["Yes", "No", "Individual placements", "—"] },
+      { feature: "Customer stays on your site", values: ["Yes", "No", "Yes", "Yes"] },
+      { feature: "Embedded Checkout", values: ["Yes", "No", "Individual placements", "Individual Placements"] },
       { feature: "Hosted by Revolut", values: ["No", "Yes", "No", "Yes"] },
       { feature: "Cards & alternative methods", values: ["Yes", "Yes", "Yes", "Yes"] },
       {
         feature: "Appearance customisation",
-        values: ["Full (5/5)", "Limited (3/5)", "Merchant Controlled", "Limited"],
+        values: ["Full (5/5)", "Limited (3/5)", "Controlled by you", "Limited"],
       },
-      { feature: "Dashboard configuration", values: ["Yes", "Branding only", "No", "—"] },
+      { feature: "Dashboard configuration", values: ["Yes", "Branding only", "No", "No"] },
       { feature: "Integration effort", values: ["Medium", "Low", "High", "Very Low"] },
       { feature: "Best for Revolut-only acquiring", values: ["Yes", "Yes", "Yes", "Yes"] },
       { feature: "Best for multi-acquirer setups", values: ["No", "Yes", "Yes", "Yes"] },
@@ -76,93 +76,115 @@ export const TECHNICAL_COMPARISON = [
 
 export const REVOLUT_CHECKOUT_OVERVIEW = {
   bestSuitedFor: [
-    "Merchants using Revolut as primary online payment provider",
-    "Existing ecommerce checkouts requiring embedded UI",
-    "Maximum branding & conversion priorities",
-    "Fully embedded payment experience",
+    "You use Revolut as your primary online payment provider",
+    "You already have an ecommerce checkout and need an embedded UI",
+    "You prioritise branding and conversion",
+    "You want a fully embedded payment experience",
   ],
   merchantExperience: ["Cart", "Embedded Checkout", "Payment Complete"],
   whyChoose: [
-    "Customers never leave your website",
-    "Dashboard-driven configuration",
-    "Extensive appearance customisation",
-    "Add new payment methods without code changes",
+    "Your customers never leave your website",
+    "You configure checkout from the dashboard",
+    "You can customise the appearance extensively",
+    "You can add payment methods without code changes",
   ],
   decisionCriteria: [
-    "Uses Revolut as the primary payment provider",
-    "Already has an ecommerce checkout system",
-    "Wants customers to remain on their website",
-    "Prioritises high conversion and custom branding",
-    "Wants maximum checkout customisation control",
+    "You use Revolut as your primary payment provider",
+    "You already have an ecommerce checkout",
+    "You want customers to stay on your website",
+    "You prioritise conversion and your own branding",
+    "You want full control over checkout customisation",
   ],
 };
 
 export const HOSTED_CHECKOUT_OVERVIEW = {
   bestSuitedFor: [
-    "Multi-acquirer environments",
-    "Payment Links / remote sales",
-    "Invoices & B2B payments",
-    "Fast implementations / low-code",
+    "You work with more than one acquirer",
+    "You sell with payment links or remote checkout",
+    "You send invoices or take B2B payments",
+    "You want a fast, low-code implementation",
   ],
   merchantExperience: [
     "Cart",
     "Redirect",
     "Hosted payment page/redirect Checkout",
-    "Return to Merchant",
+    "Return to your site",
   ],
   whyChoose: [
-    "Fastest implementation time",
-    "Minimal frontend development needed",
-    "Secure Revolut-hosted payment page",
-    "Easy to distribute via email, SMS or QR code",
+    "You get the fastest implementation",
+    "You need very little frontend development",
+    "Your customers pay on a secure Revolut-hosted page",
+    "You can share a link by email, SMS, or QR code",
   ],
   decisionCriteria: [
-    "Uses multiple payment providers",
-    "Needs payment links",
-    "Wants the fastest and low-effort implementation",
-    "Doesn't want to build or maintain payment UI",
-    "Needs a secure Hosted payment page/redirect Checkout for payments",
+    "You use more than one payment provider",
+    "You need payment links",
+    "You want the fastest, lowest-effort implementation",
+    "You don't want to build or maintain a payment UI",
+    "You need a secure hosted payment page",
   ],
 };
 
 export const SUBSCRIPTION_APIS_OVERVIEW = {
   subtitle: "Billing & subscriptions",
   bestSuitedFor: [
-    "SaaS, memberships, and premium content",
-    "Subscription boxes, instalments, and retainers",
-    "Fixed, per-seat, usage-based, or trial pricing",
-    "A custom sign-up flow, or a hosted payment link",
+    "You sell SaaS, memberships, or premium content",
+    "You offer subscription boxes, instalments, or retainers",
+    "You charge fixed, per-seat, usage-based, or trial pricing",
+    "You want a custom sign-up flow, or a hosted payment link",
   ],
   merchantExperience: ["Create plans", "Checkout sign-up", "Automatic charges", "Webhooks"],
   whyChoose: [
-    "Custom checkout on your website or app",
-    "Plans and dynamic pricing created via the API",
-    "Metered usage reported through each billing period",
-    "Payment methods, plan changes, and cancellations via API",
-    "Webhooks for access, email, and CRM updates",
-    "Billing connected to your existing systems",
+    "You run checkout on your website or app",
+    "You create plans and dynamic pricing through the API",
+    "You report metered usage through each billing period",
+    "You manage payment methods, plan changes, and cancellations through the API",
+    "You use webhooks to update access, email, and your CRM",
+    "You connect billing to your existing systems",
+  ],
+  decisionCriteria: [
+    "You bill customers on a schedule",
+    "You sell SaaS, memberships, boxes, instalments, or retainers",
+    "You need fixed, per-seat, usage-based, or trial pricing",
+    "You want a custom sign-up flow or a hosted payment link",
+    "You want each renewal charged automatically",
   ],
 };
 
 export const SERVER_TO_SERVER_OVERVIEW = {
+  summary:
+    "Integrate directly with our APIs to handle card payments. You handle PCI-sensitive card data, so you need to meet specific compliance requirements.",
+  bestSuitedLabel: "Requirements",
   bestSuitedFor: [
-    "Platforms that own the payment flow on their backend",
-    "Saved payment methods and merchant-initiated charges",
-    "Payment methods that do not need a checkout widget",
-    "Partner or in-person systems calling the Merchant API",
+    "You must be PCI compliant.",
+    "You must provide a PCI Attestation of Compliance (AOC) issued by a certified Qualified Security Assessor (QSA).",
+    "Your PCI AOC must be based on the PCI DSS SAQ-D form.",
+    "You collect card details directly through your own checkout form and have access to the card details.",
   ],
-  merchantExperience: ["Create order", "Submit payment", "Webhook result"],
+  whyChooseLabel: "Why choose Server-to-Server",
   whyChoose: [
-    "Secret key stays on your server",
-    "Orders, payments, captures, and refunds via the Merchant API",
-    "No Revolut checkout UI where the method allows it",
-    "Final status comes from webhooks, not the browser",
+    "You integrate directly with the APIs",
+    "You keep the checkout form on your site",
+    "You collect the card details and keep access to them",
+  ],
+  paymentMethods: ["Cards", "Revolut Pay"],
+  decisionCriteria: [
+    "You want to integrate directly with the APIs",
+    "You can meet PCI DSS, including a QSA-issued AOC based on SAQ-D",
+    "You collect card details in your own checkout",
   ],
 };
 
-export const KEY_TAKEAWAYS = {
-  revolutCheckout:
-    "Choose Embedded Checkout when you want a fully embedded, highly customisable payment experience that keeps customers on your website and maximises conversion.",
-  hostedCheckout:
-    "Choose Hosted payment page/redirect Checkout (Payment Links API) when you need a fast, low-maintenance integration for payment links, invoicing, or remote payments, while leveraging Revolut's secure hosted payment experience.",
-};
+export const INDIVIDUAL_SDK_DECISION = [
+  "You need standalone payment buttons",
+  "You want customers to stay on your website",
+  "You want to place each payment method yourself",
+  "You need support for CIT/MIT payments",
+] as const;
+
+export const PLUGINS_DECISION = [
+  "You already use a supported ecommerce platform",
+  "You want Revolut without building a custom checkout",
+  "You prefer a plugin to a from-scratch integration",
+  "You want a faster setup than a custom build",
+] as const;

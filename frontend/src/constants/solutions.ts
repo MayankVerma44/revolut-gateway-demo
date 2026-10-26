@@ -25,19 +25,19 @@ export const SOLUTIONS: SolutionMeta[] = [
     description:
       "Embedded Checkout experience using the Embedded Checkout Web SDK. The customer stays on your site while Revolut handles payment methods in-page.",
     characteristics: [
-      "Widget embedded on merchant page",
+      "Widget embedded on your page",
       "Server-side order token via secret key",
       "Embedded Checkout Web SDK",
-      "Ideal for seamless on-brand checkout",
+      "A seamless checkout that matches your brand",
     ],
     comparison: {
-      checkoutExperience: "Embedded widget on merchant site",
+      checkoutExperience: "Embedded widget on your site",
       redirectRequired: "No (customer stays on page)",
       integrationType: "Web SDK + Merchant API",
-      customisation: "High — matches merchant UI",
+      customisation: "High — matches your UI",
       paymentMethods: "Cards, Revolut Pay, wallets*",
       mobileExperience: "Responsive embedded widget",
-      bestSuitedFor: "Merchants who want checkout on their own domain",
+      bestSuitedFor: "You want checkout on your own domain",
     },
   },
   {
@@ -54,12 +54,12 @@ export const SOLUTIONS: SolutionMeta[] = [
     ],
     comparison: {
       checkoutExperience: "Redirect to Revolut-hosted page",
-      redirectRequired: "Yes — leaves merchant origin",
+      redirectRequired: "Yes — leaves your site",
       integrationType: "Merchant API + redirect",
       customisation: "Limited — Revolut-hosted UI",
       paymentMethods: "Full Revolut payment methods",
       mobileExperience: "Optimised hosted mobile flow",
-      bestSuitedFor: "Merchants prioritising speed-to-market",
+      bestSuitedFor: "You want to go live quickly",
     },
   },
 ];

@@ -1,26 +1,59 @@
 import type { CSSProperties } from "react";
 import {
   HOSTED_CHECKOUT_OVERVIEW,
+  INDIVIDUAL_SDK_DECISION,
+  PLUGINS_DECISION,
   REVOLUT_CHECKOUT_OVERVIEW,
+  SERVER_TO_SERVER_OVERVIEW,
+  SUBSCRIPTION_APIS_OVERVIEW,
 } from "../../constants/comparisonOverview";
+
+const DECISIONS = [
+  {
+    title: "Choose Embedded Checkout if…",
+    items: REVOLUT_CHECKOUT_OVERVIEW.decisionCriteria,
+    accent: "teal",
+  },
+  {
+    title: "Choose Hosted payment page/redirect Checkout if…",
+    items: HOSTED_CHECKOUT_OVERVIEW.decisionCriteria,
+    accent: "sky",
+  },
+  {
+    title: "Choose Individual SDK if…",
+    items: INDIVIDUAL_SDK_DECISION,
+    accent: "teal",
+  },
+  {
+    title: "Choose Plugins if…",
+    items: PLUGINS_DECISION,
+    accent: "sky",
+  },
+  {
+    title: "Choose Subscription APIs if…",
+    items: SUBSCRIPTION_APIS_OVERVIEW.decisionCriteria,
+    accent: "teal",
+  },
+  {
+    title: "Choose Server-to-Server if…",
+    items: SERVER_TO_SERVER_OVERVIEW.decisionCriteria,
+    accent: "sky",
+  },
+] as const;
 
 export function DecisionMatrix() {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <DecisionPanel
-        title="Choose Embedded Checkout if…"
-        items={REVOLUT_CHECKOUT_OVERVIEW.decisionCriteria}
-        accent="teal"
-        className="flow-card"
-        style={{ animationDelay: "70ms" }}
-      />
-      <DecisionPanel
-        title="Choose Hosted payment page/redirect Checkout if…"
-        items={HOSTED_CHECKOUT_OVERVIEW.decisionCriteria}
-        accent="sky"
-        className="flow-card"
-        style={{ animationDelay: "140ms" }}
-      />
+      {DECISIONS.map((decision, index) => (
+        <DecisionPanel
+          key={decision.title}
+          title={decision.title}
+          items={decision.items}
+          accent={decision.accent}
+          className="flow-card"
+          style={{ animationDelay: `${70 + index * 70}ms` }}
+        />
+      ))}
     </div>
   );
 }

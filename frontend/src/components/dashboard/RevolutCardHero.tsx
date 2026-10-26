@@ -134,7 +134,6 @@ export function RevolutCardHero({ children }: { children: ReactNode }) {
         <div className="card-hero-atmosphere" aria-hidden="true">
           <span className="card-hero-glow card-hero-glow-a" />
           <span className="card-hero-glow card-hero-glow-b" />
-          <span className="card-hero-horizon" />
         </div>
 
         <div className="page-container card-hero-layout">

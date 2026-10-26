@@ -88,15 +88,6 @@
   background: radial-gradient(circle, rgba(99, 102, 241, 0.16), transparent 65%);
 }
 
-.card-hero-horizon {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 16%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.22) 50%, transparent);
-}
-
 .card-hero-layout {
   position: relative;
   z-index: 2;
@@ -443,16 +434,14 @@
   border: 0;
   outline: none;
   opacity: calc(0.94 - var(--scroll) * 0.42);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 96px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 96px), transparent 100%);
 }
 
 @media (max-width: 1023px) {
   .card-hero-layout {
     min-height: 0;
     padding-block: 3rem 5rem;
-  }
-
-  .card-hero-horizon {
-    display: none;
   }
 
   .landing-video-stage {
@@ -542,6 +531,10 @@
 
 .dashboard-top-dock .animated-top-dock-component::after,
 .dashboard-top-dock .animated-top-dock-component__caption {
+  display: none;
+}
+
+.dashboard-top-dock .animated-top-dock__nav > .animated-top-dock__item:nth-child(6) {
   display: none;
 }
 
@@ -636,7 +629,6 @@
 #dashboard-overview,
 #dashboard-comparison,
 #dashboard-decision,
-#dashboard-takeaways,
 #dashboard-demos {
   scroll-margin-top: 7rem;
 }

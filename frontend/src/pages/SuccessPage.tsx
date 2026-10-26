@@ -32,7 +32,7 @@ export function SuccessPage() {
         </span>
         <h1 className="page-title mt-4 text-3xl">Thank you. The order is confirmed.</h1>
         <p className="mt-4 text-ink-soft leading-relaxed">
-          Status was verified by the merchant backend, not trusted from the redirect alone.
+          Status was verified by your backend, not trusted from the redirect alone.
         </p>
         {error && <p className="mt-4 text-rose">{error}</p>}
         {order && (

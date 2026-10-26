@@ -17,8 +17,8 @@ export function IndividualSDKPanel({
         </h3>
       </div>
       <p className="mt-3 text-sm text-ink-soft leading-relaxed">
-        {SDK_COLUMN?.description}. This option already appears in the technical comparison beside
-        Embedded and Hosted.
+        {SDK_COLUMN?.description}. You can compare it with Embedded and Hosted in the technical
+        comparison.
       </p>
 
       <div className="mt-6 space-y-6">
@@ -28,9 +28,10 @@ export function IndividualSDKPanel({
           </h4>
           <ul className="space-y-2">
             {[
-              "Custom storefronts that need standalone buttons",
-              "Checkout that stays on the merchant website",
-              "Modular frontend SDK placements",
+              "You need standalone buttons on a custom storefront",
+              "You want checkout to stay on your website",
+              "You want to place each payment SDK yourself",
+              "You need support for CIT/MIT payments",
             ].map((item) => (
               <li key={item} className="flex gap-2 text-sm text-ink-soft leading-relaxed">
                 <span className="text-teal shrink-0">·</span>
@@ -47,7 +48,7 @@ export function IndividualSDKPanel({
           <ul className="space-y-2">
             {[
               "Technical stack: modular frontend SDKs",
-              "Customer stays on merchant site",
+              "Your customer stays on your site",
               "Integration effort: high / pro code",
             ].map((item) => (
               <li key={item} className="flex gap-2 text-sm text-ink-soft leading-relaxed">

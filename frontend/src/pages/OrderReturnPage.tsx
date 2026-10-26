@@ -11,7 +11,7 @@ import { Layout } from "../components/Layout";
 export function OrderReturnPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [message, setMessage] = useState("Verifying payment with the merchant server…");
+  const [message, setMessage] = useState("Verifying payment with your server…");
 
   useEffect(() => {
     if (!id) return;

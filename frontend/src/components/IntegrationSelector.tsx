@@ -28,16 +28,16 @@ export function IntegrationSelector({
       <div className="mt-4 glass rounded-2xl p-5 text-sm leading-6 text-ink-soft">
         {value === "revolut_checkout" ? (
           <>
-            The customer stays on the merchant checkout. The backend creates a Revolut order with
-            the secret key and returns only a public order token. The Web SDK mounts the widget in
+            Your customer stays on your checkout. Your backend creates a Revolut order with the
+            secret key and returns only a public order token. The Web SDK mounts the widget on
             this page.
           </>
         ) : (
           <>
-            The merchant backend creates a Revolut order and receives a{" "}
+            Your backend creates a Revolut order and receives a{" "}
             <code className="text-teal text-xs">checkout_url</code>. The browser leaves this
-            website and completes payment on Revolut-hosted checkout before returning to the
-            merchant success page.
+            website and completes payment on Revolut-hosted checkout before returning to your
+            success page.
           </>
         )}
       </div>

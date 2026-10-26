@@ -145,7 +145,7 @@ export function CheckoutPage() {
     <Layout>
       {leaving && (
         <div className="glass-strong border-b border-teal/30 text-center py-3 px-4 text-sm text-teal">
-          Leaving the merchant site — redirecting to Revolut-hosted checkout…
+          Leaving your site — redirecting to Revolut-hosted checkout…
         </div>
       )}
       <form onSubmit={onSubmit} className="page-container py-12 grid lg:grid-cols-[1fr_340px] gap-10">
@@ -153,7 +153,7 @@ export function CheckoutPage() {
           <div>
             <h1 className="page-title">Checkout</h1>
             <p className="mt-2 text-ink-soft">
-              Complete customer details, then choose how this merchant talks to Revolut.
+              Complete your customer details, then choose how you connect to Revolut.
             </p>
           </div>
 

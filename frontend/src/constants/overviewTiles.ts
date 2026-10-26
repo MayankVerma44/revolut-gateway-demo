@@ -46,15 +46,16 @@ export const OVERVIEW_TILES: readonly OverviewTile[] = [
   {
     id: "subscription-apis",
     title: "Subscription APIs",
-    description: "Bill customers on a schedule, with Revolut running each renewal.",
+    description: "Bill your customers on a schedule, with Revolut running each renewal.",
     accent: "ink",
     chips: ["Recurring"],
   },
   {
     id: "server-to-server",
     title: "Server-to-Server Integration",
-    description: "Create orders and submit payments from your backend.",
+    description:
+      "Integrate directly with the APIs to handle card payments. You need to be PCI compliant.",
     accent: "ink",
-    chips: ["Merchant API"],
+    chips: ["Cards", "Revolut Pay"],
   },
 ];

@@ -55,7 +55,7 @@ export function IndividualApiDemoCard() {
     <DemoCard
       badge="Individual SDKs Demo"
       title="Individual SDKs"
-      description="Launch a demo for individual payment methods on a checkout page"
+      description="Launch a demo for individual payment methods on your checkout page"
       points={["Each method opens its own sandbox demo"]}
       icon={
         <DemoIcon>
@@ -78,10 +78,10 @@ export function SubscriptionApiDemoCard() {
       title="Subscription APIs"
       description="Walk through plan selection, the first payment, and automatic renewals."
       points={[
-        "Customer chooses a subscription plan",
-        "First payment saves the payment method",
+        "Your customer chooses a subscription plan",
+        "The first payment saves the payment method",
         "Revolut charges each later billing cycle",
-        "Opens the subscription flow in a new tab",
+        "The subscription flow opens in a new tab",
       ]}
       icon={
         <DemoIcon>
