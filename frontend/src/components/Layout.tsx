@@ -105,7 +105,7 @@ export function Layout({
       {layoutMode === "dashboard" && (
         <footer className="app-footer">
           <div className="page-container py-10 text-sm text-ink-soft flex flex-col gap-2 md:flex-row md:justify-between">
-            <p>Internal demonstration tool for Embedded Checkout and Hosted payment page/redirect Checkout.</p>
+            <p>Internal demonstration tool for checkout solutions.</p>
             <p className="text-ink-soft/60">Interactive demos powered by the Revolut Merchant API.</p>
           </div>
         </footer>
