@@ -43,20 +43,16 @@ export function IndividualSDKPanel({
 
         <div>
           <h4 className="text-xs font-medium uppercase tracking-wider text-teal mb-3">
-            From the comparison matrix
+            Supported payment methods
           </h4>
-          <ul className="space-y-2">
-            {[
-              "Technical stack: modular frontend SDKs",
-              "Your customer stays on your site",
-              "Integration effort: high / pro code",
-            ].map((item) => (
+          <ol className="space-y-2">
+            {["Revolut Pay", "Cards", "ApplePay", "Google Pay", "Pay By Bank"].map((item, index) => (
               <li key={item} className="flex gap-2 text-sm text-ink-soft leading-relaxed">
-                <span className="text-success shrink-0">✓</span>
+                <span className="flow-step shrink-0">{index + 1}</span>
                 {item}
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
       </div>
     </Tag>

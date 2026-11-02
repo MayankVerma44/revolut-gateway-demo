@@ -15,7 +15,6 @@ const EXPAND_MS = 1600;
 const SCRIM_MS = 1100;
 const CLOSE_MS = 680;
 const CLOSE_SCRIM_MS = 420;
-const CLOSE_DELAY_MS = 80;
 const EXPAND_EASE = "cubic-bezier(0.33, 0, 0.2, 1)";
 const CLOSE_EASE = "cubic-bezier(0.4, 0, 1, 1)";
 
@@ -71,10 +70,6 @@ function TileBody({ id }: { id: OverviewTile["id"] }) {
   );
 }
 
-function pointInRect(x: number, y: number, rect: DOMRect | undefined, pad = 0) {
-  return !!rect && x >= rect.left - pad && x <= rect.right + pad && y >= rect.top - pad && y <= rect.bottom + pad;
-}
-
 export function FloatingOverview() {
   const [activeId, setActiveId] = useState<OverviewTile["id"] | null>(null);
   const cells = useRef(new Map<OverviewTile["id"], HTMLDivElement>());
@@ -83,17 +78,8 @@ export function FloatingOverview() {
   const motionRef = useRef<Animation | null>(null);
   const closingRef = useRef(false);
   const switchingRef = useRef(false);
-  const closeTimerRef = useRef<number | null>(null);
-  const lastPointerRef = useRef<{ x: number; y: number } | null>(null);
-  const leftDuringOpenRef = useRef(false);
   const activeIdRef = useRef(activeId);
   activeIdRef.current = activeId;
-
-  const cancelScheduledClose = () => {
-    if (closeTimerRef.current == null) return;
-    window.clearTimeout(closeTimerRef.current);
-    closeTimerRef.current = null;
-  };
 
   const activeTile = OVERVIEW_TILES.find((tile) => tile.id === activeId) ?? null;
 
@@ -104,7 +90,6 @@ export function FloatingOverview() {
   };
 
   const beginClose = () => {
-    cancelScheduledClose();
     const id = activeIdRef.current;
     const card = cardRef.current;
     const cell = id ? cells.current.get(id) : null;
@@ -148,35 +133,10 @@ export function FloatingOverview() {
     };
   };
 
-  const scheduleClose = () => {
-    if (!activeIdRef.current || closingRef.current || closeTimerRef.current != null) return;
-    closeTimerRef.current = window.setTimeout(() => {
-      closeTimerRef.current = null;
-      beginClose();
-    }, CLOSE_DELAY_MS);
-  };
-
-  const resumeOpen = () => {
-    cancelScheduledClose();
-    const animation = motionRef.current;
-    if (!closingRef.current || !animation) return;
-    closingRef.current = false;
-    animation.onfinish = null;
-    animation.reverse();
-    const scrim = scrimRef.current;
-    const opacity = scrim ? getComputedStyle(scrim).opacity : "1";
-    scrim?.getAnimations().forEach((entry) => entry.cancel());
-    scrim?.animate([{ opacity }, { opacity: 1 }], {
-      duration: SCRIM_MS,
-      fill: "both",
-    });
-  };
-
   const openTile = (id: OverviewTile["id"]) => {
-    cancelScheduledClose();
-    leftDuringOpenRef.current = false;
     if (id === activeIdRef.current) {
-      resumeOpen();
+      if (closingRef.current) return;
+      beginClose();
       return;
     }
     closingRef.current = false;
@@ -215,10 +175,6 @@ export function FloatingOverview() {
       { duration: EXPAND_MS, easing: EXPAND_EASE, fill: "both" },
     );
     motionRef.current = animation;
-    animation.onfinish = () => {
-      if (closingRef.current || !leftDuringOpenRef.current) return;
-      scheduleClose();
-    };
     scrimRef.current?.animate([{ opacity: 0 }, { opacity: 1 }], {
       duration: SCRIM_MS,
       easing: "ease-out",
@@ -238,42 +194,24 @@ export function FloatingOverview() {
   useEffect(() => {
     if (!activeId) return;
 
-    const onMove = (event: PointerEvent) => {
-      lastPointerRef.current = { x: event.clientX, y: event.clientY };
-      if (!cardRef.current) return;
-      const card = cardRef.current.getBoundingClientRect();
-      const overCard = pointInRect(event.clientX, event.clientY, card);
-      if (overCard) {
-        leftDuringOpenRef.current = false;
-        cancelScheduledClose();
-        resumeOpen();
-        return;
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (cardRef.current?.contains(target)) return;
+      for (const cell of cells.current.values()) {
+        if (cell.contains(target)) return;
       }
-      const opening = motionRef.current?.playState === "running" && !closingRef.current;
-      if (opening) {
-        leftDuringOpenRef.current = true;
-        return;
-      }
-      if (closingRef.current) return;
-      scheduleClose();
-    };
-    const onScroll = () => {
-      cancelScheduledClose();
       if (!closingRef.current) beginClose();
     };
-    const onLeaveWindow = () => {
-      cancelScheduledClose();
-      if (!closingRef.current) beginClose();
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && !closingRef.current) beginClose();
     };
 
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    document.documentElement.addEventListener("pointerleave", onLeaveWindow);
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      cancelScheduledClose();
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("scroll", onScroll);
-      document.documentElement.removeEventListener("pointerleave", onLeaveWindow);
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, [activeId]);
 
@@ -296,6 +234,8 @@ export function FloatingOverview() {
             }}
             role="button"
             tabIndex={0}
+            aria-pressed={activeId === tile.id}
+            aria-expanded={activeId === tile.id}
           >
             <article className={`overview-tile overview-tile-${tile.accent}`}>
               <TileBody id={tile.id} />
@@ -311,6 +251,9 @@ export function FloatingOverview() {
                 ref={cardRef}
                 className={`overview-expand-card overview-tile-${activeTile.accent}`}
                 aria-hidden="true"
+                onClick={() => {
+                  if (!closingRef.current) beginClose();
+                }}
               >
                 <TileBody id={activeTile.id} />
               </article>

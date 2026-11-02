@@ -60,11 +60,11 @@ export const TECHNICAL_COMPARISON = [
     rows: [
       { feature: "Customer stays on your site", values: ["Yes", "No", "Yes", "Yes"] },
       { feature: "Embedded Checkout", values: ["Yes", "No", "Individual placements", "Individual Placements"] },
-      { feature: "Hosted by Revolut", values: ["No", "Yes", "No", "Yes"] },
+      { feature: "Hosted by Revolut", values: ["Yes", "Yes", "Yes", "No"] },
       { feature: "Cards & alternative methods", values: ["Yes", "Yes", "Yes", "Yes"] },
       {
         feature: "Appearance customisation",
-        values: ["Full (5/5)", "Limited (3/5)", "Controlled by you", "Limited"],
+        values: ["Full (5/5)", "Branding & Cover only", "Controlled by you", "Limited"],
       },
       { feature: "Dashboard configuration", values: ["Yes", "Branding only", "No", "No"] },
       { feature: "Integration effort", values: ["Medium", "Low", "High", "Very Low"] },
@@ -105,7 +105,7 @@ export const HOSTED_CHECKOUT_OVERVIEW = {
     "You want a fast, low-code implementation",
   ],
   merchantExperience: [
-    "Cart",
+    "Checkout",
     "Redirect",
     "Hosted payment page/redirect Checkout",
     "Return to your site",

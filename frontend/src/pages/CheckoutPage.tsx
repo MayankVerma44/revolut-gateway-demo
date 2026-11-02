@@ -8,6 +8,7 @@ import { IntegrationSelector, LockedIntegrationBadge } from "../components/Integ
 import { Layout } from "../components/Layout";
 import { useCheckoutSession } from "../checkoutSession";
 import { OrderSummary } from "../components/OrderSummary";
+import { PaymentMethodBadges } from "../components/ui/PaymentMethodBadges";
 import { createPaymentIntegration } from "../integrations/createPaymentIntegration";
 
 const emptyCustomer: CustomerDetails = {
@@ -240,7 +241,9 @@ export function CheckoutPage() {
               </p>
             )}
 
-            <div ref={widgetRef} id="checkout-container" className="mt-4 min-h-16" />
+            <div ref={widgetRef} id="checkout-container" className="mt-4 min-h-16">
+              {integration === "hosted_checkout" && <PaymentMethodBadges />}
+            </div>
 
             {error && <p className="mt-4 text-rose text-sm">{error}</p>}
             {notice && <p className="mt-4 text-amber text-sm">{notice}</p>}

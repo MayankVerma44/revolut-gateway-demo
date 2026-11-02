@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { RevolutWordmark } from "../components/RevolutWordmark";
-import { AppleMark, CardBrandMarks, GoogleMark } from "../components/ui/paymentMarks";
+import { AppleMark, BankMark, CardBrandMarks, GoogleMark } from "../components/ui/paymentMarks";
 
 const SANDBOX_DEMO_BASE = "https://merchant.test-revolut.com";
 
@@ -44,6 +44,7 @@ export const INDIVIDUAL_API_DEMOS: readonly PaymentMethodDemo[] = [
     id: "pay-by-bank",
     label: "Pay by Bank",
     href: sandboxPaymentDemoUrl("pay-by-bank", "dev"),
+    icon: <BankMark />,
   },
 ];
 
