@@ -178,19 +178,20 @@ export const SERVER_TO_SERVER_OVERVIEW = {
 export const SEPA_DIRECT_DEBIT_OVERVIEW = {
   subtitle: "EUR bank debits",
   summary:
-    "Collect euro payments from a customer's bank account in the SEPA region. The customer authorises a mandate, then you submit the debit.",
+    "Accept SEPA Direct Debit Core payments from a customer's personal or business EUR account. They authorise a mandate once, and you collect later payments on a schedule.",
   bestSuitedFor: [
-    "You collect one-off or recurring payments in euro",
-    "Your customers pay from a personal or business account in the SEPA region",
+    "You collect subscriptions or other recurring payments in euro",
+    "Your customers pay from a bank account in the SEPA region, except Portugal and Ireland",
     "You want a bank debit instead of a card payment",
-    "You can store the mandate and send pre-debit notifications",
+    "You send the pre-debit notifications and store the mandate yourself",
   ],
-  merchantExperience: ["Collect the mandate", "Customer authorises", "Submit the debit", "Webhook confirmation"],
+  merchantExperience: ["Checkout widget", "IBAN and consent", "Order created", "Payment submitted"],
   whyChoose: [
-    "You collect EUR directly from the customer's bank account",
-    "You use the SEPA Direct Debit Core scheme for personal and business accounts",
-    "Your customer can authorise the mandate in a widget, or you can submit the debit from your server",
-    "You hear the outcome through a webhook, which can take up to five business days",
+    "Customers authorise a mandate once, then you collect without asking them to pay again",
+    "Direct debit fees are lower than card payments",
+    "Bank accounts do not expire, so fewer recurring payments fail",
+    "Funds settle in your merchant account within 24 hours",
+    "You pay only for a successfully processed transaction, with no monthly fee",
   ],
 };
 

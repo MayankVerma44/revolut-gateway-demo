@@ -62,7 +62,7 @@ export const OVERVIEW_TILES: readonly OverviewTile[] = [
   {
     id: "sepa-direct-debit",
     title: "SEPA Direct Debit",
-    description: "Collect euro payments from a customer's bank account in the SEPA region.",
+    description: "Collect scheduled EUR payments from a customer's bank account after one mandate.",
     accent: "ink",
     chips: ["EUR", "Mandates"],
   },
