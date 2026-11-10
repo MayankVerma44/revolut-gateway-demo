@@ -4,7 +4,8 @@ export type OverviewTileId =
   | "individual-sdks"
   | "plugins"
   | "subscription-apis"
-  | "server-to-server";
+  | "server-to-server"
+  | "sepa-direct-debit";
 
 export interface OverviewTile {
   id: OverviewTileId;
@@ -57,5 +58,12 @@ export const OVERVIEW_TILES: readonly OverviewTile[] = [
       "Integrate directly with the APIs to handle card payments. You need to be PCI compliant.",
     accent: "ink",
     chips: ["Cards", "Revolut Pay"],
+  },
+  {
+    id: "sepa-direct-debit",
+    title: "SEPA Direct Debit",
+    description: "Collect euro payments from a customer's bank account in the SEPA region.",
+    accent: "ink",
+    chips: ["EUR", "Mandates"],
   },
 ];

@@ -386,6 +386,11 @@ body {
   height: 1.55rem;
 }
 
+.payment-hub-disc .payment-mark-sepa {
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
 @keyframes payment-beam-travel {
   to {
     stroke-dashoffset: -136;

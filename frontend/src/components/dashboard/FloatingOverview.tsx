@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import {
   HOSTED_CHECKOUT_OVERVIEW,
   REVOLUT_CHECKOUT_OVERVIEW,
+  SEPA_DIRECT_DEBIT_OVERVIEW,
   SERVER_TO_SERVER_OVERVIEW,
   SUBSCRIPTION_APIS_OVERVIEW,
 } from "../../constants/comparisonOverview";
@@ -58,6 +59,15 @@ function TileBody({ id }: { id: OverviewTile["id"] }) {
         as="div"
         className="overview-inline-panel"
         data={{ title: "Subscription APIs", ...SUBSCRIPTION_APIS_OVERVIEW }}
+      />
+    );
+  }
+  if (id === "sepa-direct-debit") {
+    return (
+      <SolutionOverviewPanel
+        as="div"
+        className="overview-inline-panel"
+        data={{ title: "SEPA Direct Debit", ...SEPA_DIRECT_DEBIT_OVERVIEW }}
       />
     );
   }

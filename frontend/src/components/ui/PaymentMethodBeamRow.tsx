@@ -4,6 +4,7 @@ interface BeamMethod {
   id: string;
   label: string;
   href: string;
+  hrefs?: readonly string[];
   icon?: ReactNode;
 }
 
@@ -37,6 +38,24 @@ function localBox(rect: DOMRect, origin: DOMRect, scaleX: number, scaleY: number
     y: (rect.top - origin.top + rect.height / 2) / scaleY,
     radius: rect.width / scaleX / 2,
   };
+}
+
+function openAdditionalTabs(hrefs: readonly string[] | undefined) {
+  if (!hrefs || hrefs.length < 2) return false;
+  let openedAll = true;
+  for (const href of hrefs.slice(1)) {
+    const opened = window.open(href, "_blank");
+    if (!opened) {
+      openedAll = false;
+      continue;
+    }
+    try {
+      opened.opener = null;
+    } catch {
+      // The new document is already cross-origin.
+    }
+  }
+  return openedAll;
 }
 
 function spokePath(hub: LocalBox, node: LocalBox) {
@@ -182,6 +201,25 @@ export function PaymentMethodBeamRow({ methods }: { methods: readonly BeamMethod
               left: `calc(50% + cos(${angle}rad) * var(--hub-radius))`,
               top: `calc(50% + sin(${angle}rad) * var(--hub-radius))`,
             }}
+            onMouseDown={
+              method.hrefs && method.hrefs.length > 1
+                ? (event) => {
+                    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                    if (openAdditionalTabs(method.hrefs)) event.currentTarget.dataset.extraOpened = "1";
+                  }
+                : undefined
+            }
+            onClick={
+              method.hrefs && method.hrefs.length > 1
+                ? (event) => {
+                    if (event.currentTarget.dataset.extraOpened === "1") {
+                      delete event.currentTarget.dataset.extraOpened;
+                      return;
+                    }
+                    openAdditionalTabs(method.hrefs);
+                  }
+                : undefined
+            }
           >
             <span
               className="payment-hub-disc"

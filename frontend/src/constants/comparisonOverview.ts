@@ -175,6 +175,25 @@ export const SERVER_TO_SERVER_OVERVIEW = {
   ],
 };
 
+export const SEPA_DIRECT_DEBIT_OVERVIEW = {
+  subtitle: "EUR bank debits",
+  summary:
+    "Collect euro payments from a customer's bank account in the SEPA region. The customer authorises a mandate, then you submit the debit.",
+  bestSuitedFor: [
+    "You collect one-off or recurring payments in euro",
+    "Your customers pay from a personal or business account in the SEPA region",
+    "You want a bank debit instead of a card payment",
+    "You can store the mandate and send pre-debit notifications",
+  ],
+  merchantExperience: ["Collect the mandate", "Customer authorises", "Submit the debit", "Webhook confirmation"],
+  whyChoose: [
+    "You collect EUR directly from the customer's bank account",
+    "You use the SEPA Direct Debit Core scheme for personal and business accounts",
+    "Your customer can authorise the mandate in a widget, or you can submit the debit from your server",
+    "You hear the outcome through a webhook, which can take up to five business days",
+  ],
+};
+
 export const INDIVIDUAL_SDK_DECISION = [
   "You need standalone payment buttons",
   "You want customers to stay on your website",
